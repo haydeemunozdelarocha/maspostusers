@@ -7,7 +7,7 @@ import {formatInventoryData} from "../helpers/formatting";
 
 function Dashboard(props) {
     const { cookies } = props;
-    const pmb = cookies.get('user') ? cookies.get('user').pmb : null;
+    const pmb = cookies.get('maspost-user') ? cookies.get('maspost-user').pmb : null;
 
     return (
         <React.Fragment>

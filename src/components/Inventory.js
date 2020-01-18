@@ -28,7 +28,8 @@ class Inventory extends React.Component {
             inventoryStatus: 'en_bodega',
             timeframe: 'annual',
             headers: [],
-            isDesktop: false
+            isDesktop: false,
+            isLoading: true
         }
 
         this.getDatesForFilter();

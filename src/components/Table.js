@@ -7,7 +7,8 @@ class Table extends React.Component {
 
         this.state = {
             headers: [],
-            data: []
+            data: [],
+            isLoading: true
         }
     }
 
@@ -17,7 +18,8 @@ class Table extends React.Component {
                 const data = this.props.formatData ? this.props.formatData(res.data) : res.data;
                 this.setState({
                     headers: this.props.headers || getDataKeys(data[0]),
-                    data
+                    data,
+                    isLoading: false
                 });
             }
         });
@@ -27,14 +29,33 @@ class Table extends React.Component {
         return this.state.headers.length > 0 && this.state.headers.map((header, index) => (<th key={`header-item-${index}`} data-header-id={header.id}>{header.label}</th>));
     }
 
-    renderData() {
-        return this.state.data.length ? this.state.data.map((dataItem, index) => dataItem && Object.keys(dataItem).length ?
-            <tr key={`row-${index}`}>
-                {Object.keys(dataItem).map((key, index) => dataItem[key] ?
-                    <td key={`cell-${index}`}>{dataItem[key]}</td> : null)}
-                {this.props.hasCheckbox ? <td><input type="checkbox" onClick={(e) => this.props.onCheck(dataItem)}/></td> : null}
-            </tr> : null) : <tr><td>Loading...</td></tr>;
+    getCells(dataItem) {
+        const dataColumns = Object.keys(dataItem);
+
+        return dataColumns.map((key, index) => {
+            console.log('sss', dataColumns);
+            return dataItem[key] && (<td key={`cell-${index}`}>{dataItem[key]}</td>)
+        });
     }
+
+    renderData() {
+        const { hasCheckbox } = this.props;
+        const {isLoading, data} = this.state;
+        return data.length > 0 ? data.map((dataItem, index) => {
+            if (dataItem) {
+                return (
+                    <tr key={`row-${index}`}>
+                        {this.getCells(dataItem)}
+                        {
+                            hasCheckbox &&
+                            <td><input type="checkbox" onClick={(e) => this.props.onCheck(dataItem)}/></td>
+                        }
+                    </tr>
+                );
+            }
+        }) : isLoading ? <tr><td>Loading...</td></tr> : <tr><td>No hay paquetes en tu inventario.</td></tr>
+    }
+
 
     render() {
         const { hasCheckbox } = this.props;
