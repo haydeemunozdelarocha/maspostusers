@@ -1,0 +1,43 @@
+.table-filters {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  padding-bottom: 1rem;
+  padding-top: 1rem;
+
+  &__date {
+    * {
+      margin-left: 2rem;
+    }
+  }
+
+  .MuiSelect-root {
+    min-width: 150px;
+  }
+
+  @include media-breakpoint-down(md) {
+    flex-direction: column;
+    justify-content: flex-start;
+
+    > * {
+      margin-bottom: 1rem;
+    }
+
+    &__date {
+      margin-left: -28px;
+
+      * {
+        margin-right: 2rem;
+        margin-left: 2rem;
+      }
+    }
+
+    button {
+      max-width: 100px;
+    }
+  }
+}
+
+.MuiCheckbox-root.MuiCheckbox-colorSecondary.MuiIconButton-colorSecondary:hover {
+  background-color: transparent !important;
+}

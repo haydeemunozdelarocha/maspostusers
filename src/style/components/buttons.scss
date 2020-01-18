@@ -1,0 +1,43 @@
+.white-button {
+  border: solid $white 3px;
+  color: $white;
+  padding: .5rem 1rem;
+
+  &:hover {
+    border: solid $secondary_color 3px;
+    background-color: $secondary_color;
+    color: white;
+  }
+}
+
+.btn-default {
+  color: $main_dark;
+  background-color: $secondary_color;
+
+  &:hover:not(:disabled) {
+    color: white;
+    background-color: $main_color;
+  }
+}
+
+.btn {
+  font-size: 14px;
+  text-transform: uppercase;
+  padding: .5rem 1rem;
+  min-width: 100px;
+
+  &:focus, &:active {
+    outline: none !important;
+    box-shadow: none;
+  }
+}
+
+.button-group-right {
+  display: flex;
+  justify-content: flex-end;
+  margin-bottom: .5rem;
+
+  button {
+    margin-left: 1rem;
+  }
+}

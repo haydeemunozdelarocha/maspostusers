@@ -1,0 +1,50 @@
+.content-container {
+  height: 84vh;
+  width: 100vw;
+  background-color: $main_light_gray;
+  overflow-y: scroll;
+
+  &-with-padding {
+    padding: 2rem;
+  }
+
+  &-center {
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    flex-grow: 0;
+  }
+
+  &-align-center {
+    margin-left: 0;
+    margin-right: 0;
+    text-align: center;
+  }
+
+  &-float-right {
+    float: right;
+  }
+}
+
+.landing-page {
+  background-position: center;
+  background-size: cover;
+  color: $white;
+
+  a {
+    color: $white;
+  }
+}
+
+
+.content-iframe {
+  border: none;
+}
+
+.in-grid-wide {
+  margin: 0 10%;
+}
+
+.in-grid-narrow {
+  margin: 0 20%;
+}

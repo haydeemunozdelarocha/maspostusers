@@ -1,0 +1,125 @@
+label {
+  padding-top: 1rem;
+}
+
+input {
+  max-width: 350px;
+  margin-bottom: 25px;
+}
+
+.form {
+  &-light {
+    .MuiInputBase-root, .MuiInputLabel-formControl, .MuiOutlinedInput-root:hover, .MuiInputLabel-formControl:active, .MuiInputLabel-formControl:hover {
+      color: #FFF;
+      font-weight: bold;
+    }
+
+    .MuiOutlinedInput-notchedOutline, .MuiOutlinedInput-root:hover > .MuiOutlinedInput-notchedOutline, .MuiOutlinedInput-input {
+      border-color: #FFF;
+      border-width: 2px;
+    }
+
+
+    .MuiOutlinedInput-root.Mui-focused {
+      .MuiOutlinedInput-notchedOutline {
+        border-color: $secondary_color;
+      }
+    }
+
+    .MuiInputLabel-outlined {
+      &.Mui-focused {
+        color: #FFF;
+      }
+    }
+  }
+
+  &-button {
+    margin-top: 2rem;
+  }
+
+  &-panel {
+    display: inline-block;
+    width: auto;
+    min-width: 500px;
+    padding: 2.5rem 4rem 2rem;
+
+    input {
+      max-width: unset;
+    }
+
+    &-title {
+      margin-bottom: 1.5rem;
+    }
+  }
+
+  &-message {
+    color: red;
+    font-size: 12px;
+    margin-bottom: 3px;
+    text-align: left;
+
+    &-error {
+      color: red;
+    }
+  }
+
+  &-error {
+    border: solid 2px red;
+    margin-bottom: 4px;
+  }
+
+  &-valid {
+    border: solid 2px $secondary_color;
+  }
+
+  &-centered {
+    width: 50%;
+    max-width: 380px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+
+    .MuiFormControl-root {
+      padding-bottom: 1rem;
+      width: 100%;
+    }
+  }
+}
+
+.MuiCircularProgress-root.MuiCircularProgress-colorPrimary {
+  color: $secondary_color;
+}
+
+@-webkit-keyframes fade-in {
+  from {opacity: 0;}
+  to {opacity: 1;}
+}
+
+.form-error-wrapper {
+  background-color: $secondary_color;
+  color: $main_dark;
+  border-radius: $border-radius;
+  padding: 1rem;
+  margin-bottom: 1rem;
+  width: 50%;
+  opacity: 0;
+  transition: all ease .3s;
+
+  &__show {
+    opacity: 1;
+  }
+}
+
+input[type='checkbox'] {
+  -webkit-appearance:none;
+  width:20px;
+  height:20px;
+  background:white;
+  border-radius:5px;
+  border:1px solid #555;
+  outline: none;
+}
+input[type='checkbox']:checked {
+  background: #d6df3f;
+  outline: none;
+}
