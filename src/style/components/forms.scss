@@ -133,3 +133,13 @@ input[type="checkbox"]:checked:after {
   background-position: center;
   background-size: cover;
 }
+
+.checkbox-label {
+  display: inline-block;
+
+  input[type="checkbox"] {
+    display: inline-block;
+    margin-bottom: -5px;
+    margin-left: 10px;
+  }
+}

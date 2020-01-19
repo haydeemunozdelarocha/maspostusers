@@ -22,7 +22,7 @@ export function getDataKeys(data) {
 
     if (keys.length) {
         return keys.map((key) => {
-            if (!isNaN(key)) {
+            if (!isNaN(key) || key === 'isSelected') {
                 return false;
             }
 

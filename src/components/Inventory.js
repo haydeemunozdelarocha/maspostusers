@@ -191,8 +191,8 @@ class Inventory extends React.Component {
                         </div>
                         {
                             isDesktop ?
-                                <Table isLoading={isLoading} data={inventory} headers={headers} hasCheckbox={true} onCheck={(row) => this.addPackage(row)}/>                            :
-                                <CardList allSelected={allSelected} cards={inventory} selectAll={() => this.selectAll()} onCheck={(row) => this.addPackage(row)}/>
+                                <Table allSelected={allSelected} selectAll={() => this.selectAll()} isLoading={isLoading} data={inventory} headers={headers} hasCheckbox={inventoryStatus !== 'entregado'} onCheck={(row) => this.addPackage(row)}/>                            :
+                                <CardList allSelected={allSelected} cards={inventory} selectAll={() => this.selectAll()} onCheck={(row) => this.addPackage(row)} hasCheckbox={inventoryStatus !== 'entregado'}/>
                         }
                     </div>
                 </div>

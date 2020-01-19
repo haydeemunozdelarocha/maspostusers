@@ -22,7 +22,7 @@ class Table extends React.Component {
                         {this.getCells(dataItem)}
                         {
                             hasCheckbox &&
-                            <td><input type="checkbox" onClick={(e) => onCheck && onCheck(dataItem)}/></td>
+                            <td><input checked={!!dataItem.isSelected} type="checkbox" onClick={(e) => onCheck && onCheck(dataItem)}/></td>
                         }
                     </tr>
                 );
@@ -32,19 +32,24 @@ class Table extends React.Component {
 
 
     render() {
-        const { hasCheckbox } = this.props;
+        const { hasCheckbox, selectAll } = this.props;
     return (
-        <table className="table table-striped" width="100%">
-            <thead>
+        <React.Fragment>
+            {
+                hasCheckbox &&
+                <label style={{float: 'right', marginBottom: '20px', marginRight: '20px'}} className="checkbox-label">Select All <input type="checkbox" onClick={(e) => selectAll()}/></label>
+            }
+            <table className="table table-striped" width="100%">
+                <thead>
                 <tr>
                     {this.renderHeaders()}
-                    {hasCheckbox ? <th></th> : null}
                 </tr>
-            </thead>
+                </thead>
                 <tbody>
-                    {this.renderData()}
+                {this.renderData()}
                 </tbody>
-        </table>
+            </table>
+        </React.Fragment>
     );
 }
 }
