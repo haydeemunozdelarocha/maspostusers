@@ -65,7 +65,7 @@ export function formatDataKey(data, keyToFormat, formatter, options) {
         }
     });
 
-    if (options.addSelect) {
+    if (options && options.addSelect) {
         data['isSelected'] = data.isSelected !== undefined ?  data.isSelected : false;
     }
 

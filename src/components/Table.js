@@ -1,4 +1,5 @@
 import React from 'react';
+import {CircularProgress} from "@material-ui/core";
 
 class Table extends React.Component {
     renderHeaders() {
@@ -27,7 +28,7 @@ class Table extends React.Component {
                     </tr>
                 );
             }
-        }) : isLoading ? <tr><td>Loading...</td></tr> : <tr><td>No hay paquetes en tu inventario.</td></tr>
+        }) : isLoading ? <tr><td><CircularProgress /></td></tr> : <tr><td>No hay paquetes en tu inventario.</td></tr>
     }
 
 

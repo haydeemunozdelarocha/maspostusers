@@ -86,10 +86,11 @@ class Inventory extends React.Component {
     }
 
     getData() {
-        getInventario(this.state.pmb, this.state.inventoryStatus, this.state.timeframe).then((res) => {
+        const {pmb, inventoryStatus, timeframe} = this.state;
+        getInventario(pmb, inventoryStatus, timeframe).then((res) => {
             const updatedState = {};
             if (res.status === 200) {
-                const data = formatInventoryData(res.data, [], {addSelect: true});
+                const data = formatInventoryData(res.data, [], {addSelect: inventoryStatus !== 'entregado'});
                 updatedState.headers = getDataKeys(data[0]);
                 updatedState.inventory = data;
                 updatedState.allSelected = false;
