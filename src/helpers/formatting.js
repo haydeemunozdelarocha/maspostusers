@@ -14,7 +14,6 @@ export function parseDataKeyNames(data) {
 }
 
 export function formatData(data, formatter) {
-    console.log(data);
     return data ? data.map((object) => formatter(object)) : [];
 }
 
@@ -27,15 +26,19 @@ export function getDataKeys(data) {
                 return false;
             }
 
-            key = key.replace('_', ' ').trim();
             return {
-                id: key,
-                label: `${key.charAt(0).toUpperCase()}${key.slice(1)}`,
+                id: key.replace('_', ' ').trim(),
+                label: formatColumnNameToLabel(key),
             };
         });
     }
 
     return keys;
+}
+
+export function formatColumnNameToLabel(name) {
+    const nameWithoutDashes = name.replace('_', ' ').trim();
+    return `${nameWithoutDashes.charAt(0).toUpperCase()}${nameWithoutDashes.slice(1)}`;
 }
 
 export function truncateMiddleOfString(string, charCountStart = 4, charCountEnd = 4) {
@@ -44,18 +47,17 @@ export function truncateMiddleOfString(string, charCountStart = 4, charCountEnd 
     return `${start}....${end}`
 }
 
-export function formatInventoryData(data, keys) {
+export function formatInventoryData(data, keys, options) {
     return formatData(data, (data) => {
-        console.log('DATA!', data);
         let formattedData = formatDataKey(parseDataKeyNames(data), 'traking', (string) => {
             return truncateMiddleOfString(string, );
-        });
+        }, options);
 
         return showOnlyColumnsInData(keys, formattedData);
     });
 }
 
-export function formatDataKey(data, keyToFormat, formatter) {
+export function formatDataKey(data, keyToFormat, formatter, options) {
     let keys = Object.keys(data);
     keys.forEach((key) => {
         if (key === keyToFormat) {
@@ -63,12 +65,15 @@ export function formatDataKey(data, keyToFormat, formatter) {
         }
     });
 
+    if (options.addSelect) {
+        data['isSelected'] = data.isSelected !== undefined ?  data.isSelected : false;
+    }
+
     return data;
 }
 
 export function showOnlyColumnsInData(columnsToShow, data) {
     const formattedData = {};
-    console.log('columnsToShow', columnsToShow)
 
     if (columnsToShow.length > 0) {
         columnsToShow.forEach((key) => {

@@ -11,12 +11,22 @@
 }
 
 .btn-default {
-  color: $main_dark;
-  background-color: $secondary_color;
+   color: $main_dark;
+   background-color: $secondary_color;
+
+   &:hover:not(:disabled) {
+     color: white;
+     background-color: $main_color;
+   }
+ }
+
+.btn-secondary {
+  color: white;
+  background-color: $main_color;
 
   &:hover:not(:disabled) {
-    color: white;
-    background-color: $main_color;
+    color: $main_dark;
+    background-color: $secondary_color;
   }
 }
 

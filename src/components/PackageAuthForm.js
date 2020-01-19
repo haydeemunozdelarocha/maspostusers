@@ -28,7 +28,6 @@ class PackageAuthForm extends React.Component {
             if (res.status === 200) {
             }
         }).catch((e) => {
-            console.log(e);
             this.setState({
                 errorEnabled: true,
                 errorMessage: 'Usuario o contraseña inválida.'
@@ -59,7 +58,6 @@ class PackageAuthForm extends React.Component {
         getAutorizados(this.props.pmb).then((response) => {
             if (response.status === 200 && response.data) {
                 return response.data.map((autorizado) => {
-                    console.log(autorizado.nombre);
                     this.setState({
                         autorizados: response.data.map((autorizado) => autorizado.nombre)
                     });

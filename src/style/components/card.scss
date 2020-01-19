@@ -1,7 +1,17 @@
 .card {
   input[type="checkbox"] {
-    float: right;
+    position: absolute;
+    top: 20px;
+    right: 20px;
     height: 50px;
     width:  50px;
+  }
+
+  margin-bottom: 30px;
+
+  &-line-label {
+    font-weight: 700;
+    padding-right: 5px;
+    text-transform: uppercase;
   }
 }

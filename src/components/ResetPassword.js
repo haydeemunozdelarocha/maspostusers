@@ -39,9 +39,7 @@ class ResetPassword extends React.Component {
             const authParams = this.getUrlAuthParams();
 
             if (this.isPasswordValid() && authParams) {
-                console.log(this.state.username, this.state.password, authParams.pmb, authParams.token)
                 resetPassword(this.state.username, this.state.password, authParams.pmb, authParams.token).then(res => {
-                    console.log(res);
                     if (res.status === 200) {
                         this.setState({
                             submitting: false,
@@ -50,7 +48,6 @@ class ResetPassword extends React.Component {
                         }, this.clearForm);
                     }
                 }).catch((e) => {
-                    console.log(e.response)
                     this.setState({
                         submitting: false,
                         errorEnabled: true,

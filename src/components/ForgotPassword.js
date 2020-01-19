@@ -22,7 +22,6 @@ class ForgotPassword extends React.Component {
             submitting: true
         }, () => {
             forgotPassword(this.state.username, this.state.pmb).then(res => {
-                console.log(res);
                 if (res.status === 200) {
                     this.setState({
                         submitting: false,

@@ -31,7 +31,6 @@ class LoginForm extends React.Component {
                     return this.redirectToUrl(userType);
                 }
             }).catch((e) => {
-                console.log(e);
                 this.setState({
                     submitting: false,
                     errorEnabled: true,
@@ -42,7 +41,6 @@ class LoginForm extends React.Component {
     }
 
     redirectToUrl(userType) {
-        console.log('will be redirecting', userType);
         switch(userType) {
             case 'user':
                 return this.props.history.push("/");

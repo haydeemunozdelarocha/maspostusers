@@ -18,7 +18,6 @@ class PlanSummary extends React.Component {
 
         if (userCookie) {
             getCustomerPlanInfo(userCookie.pmb).then(res => {
-                console.log(res);
                 if(res.status === 200) {
                     const planInfo = res.data[0] || {};
 

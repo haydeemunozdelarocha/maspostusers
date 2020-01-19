@@ -1,29 +1,21 @@
 import React from 'react';
 import { withRouter } from "react-router-dom";
+import {formatColumnNameToLabel} from "../helpers/formatting";
 
 class CardList extends React.Component {
-    constructor(props) {
-        super(props);
-    }
-
     render() {
-        console.log('cards', this.props.cards);
+        const {onCheck, selectAll, cards, allSelected} = this.props;
         return (
-            <div className="panel-contrast card">
-                {this.props.cards.map((card) => {
-                   return (<div>
-                       <input type="checkbox" onClick={(e) => this.props.onCheck(card)}/>
-                       <p>{card.fecha_recepcion}</p>
-                       <p>{card.ID}</p>
-                       <p>{card.tipo}</p>
-                       <p>{card.remitente}</p>
-                       <p>{card.destinatario}</p>
-                       <p>{card.fletera}</p>
-                       <p>{card.tracking}</p>
-                       <p>{card.peso}</p>
-                       <p>{card.COD}</p>
-
-                   </div>);
+            <div>
+                <button className="btn btn-secondary" style={{marginBottom: '20px', float: 'rog '}} onClick={(e) => selectAll()}>{allSelected ? 'Unselect All' : 'Select All'}</button>
+                {cards.map((card) => {
+                    const cardColumns = card ? Object.keys(card) : [];
+                    return (<div className="panel-contrast card">
+                        <input type="checkbox" checked={!!card.isSelected} onClick={(e) => onCheck(card)}/>
+                        {
+                            cardColumns.map((column) => (<p><span className="card-line-label">{formatColumnNameToLabel(column)}: </span>{card[column]}</p>))
+                        }
+                    </div>);
                 })}
             </div>
         );

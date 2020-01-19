@@ -2,7 +2,6 @@ import axios from 'axios';
 
 export function login(email, password, isAdmin = false) {
     const user = { email, password, isAdmin};
-    console.log('user', user);
     return axios.post(`${process.env.REACT_APP_MASPOST_SOURCE}auth/login`, user)
 }
 

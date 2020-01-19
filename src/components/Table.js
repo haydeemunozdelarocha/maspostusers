@@ -1,46 +1,20 @@
 import React from 'react';
-import {getDataKeys} from "../helpers/formatting";
 
 class Table extends React.Component {
-    constructor(props) {
-        super(props);
-
-        this.state = {
-            headers: [],
-            data: [],
-            isLoading: true
-        }
-    }
-
-    componentWillMount() {
-        this.props.getData().then((res) => {
-            if (res.status === 200) {
-                const data = this.props.formatData ? this.props.formatData(res.data) : res.data;
-                this.setState({
-                    headers: this.props.headers || getDataKeys(data[0]),
-                    data,
-                    isLoading: false
-                });
-            }
-        });
-    }
-
     renderHeaders() {
-        return this.state.headers.length > 0 && this.state.headers.map((header, index) => (<th key={`header-item-${index}`} data-header-id={header.id}>{header.label}</th>));
+        return this.props.headers.length > 0 && this.props.headers.map((header, index) => (<th key={`header-item-${index}`} data-header-id={header.id}>{header.label}</th>));
     }
 
     getCells(dataItem) {
         const dataColumns = Object.keys(dataItem);
 
         return dataColumns.map((key, index) => {
-            console.log('sss', dataColumns);
             return dataItem[key] && (<td key={`cell-${index}`}>{dataItem[key]}</td>)
         });
     }
 
     renderData() {
-        const { hasCheckbox } = this.props;
-        const {isLoading, data} = this.state;
+        const { hasCheckbox, data, isLoading, onCheck } = this.props;
         return data.length > 0 ? data.map((dataItem, index) => {
             if (dataItem) {
                 return (
@@ -48,7 +22,7 @@ class Table extends React.Component {
                         {this.getCells(dataItem)}
                         {
                             hasCheckbox &&
-                            <td><input type="checkbox" onClick={(e) => this.props.onCheck(dataItem)}/></td>
+                            <td><input type="checkbox" onClick={(e) => onCheck && onCheck(dataItem)}/></td>
                         }
                     </tr>
                 );
