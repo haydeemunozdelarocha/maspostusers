@@ -1,4 +1,13 @@
 import axios from 'axios';
+let header = new Headers({
+    'Access-Control-Allow-Origin':'*',
+    'Content-Type': 'multipart/form-data'
+});
+
+export function registerNewUser(email, password, pmb) {
+    const user = { email, password, pmb};
+    return axios.post(`${process.env.REACT_APP_MASPOST_SOURCE}auth/new_user`, user)
+}
 
 export function login(email, password, isAdmin = false) {
     const user = { email, password, isAdmin};
@@ -15,8 +24,17 @@ export function resetPassword(email, password, pmb, token) {
     return axios.post(`${process.env.REACT_APP_MASPOST_SOURCE}auth/reset_password`, user)
 }
 
+export function acceptTerms(id, pmb) {
+    const user = { id, pmb };
+    return axios.post(`${process.env.REACT_APP_MASPOST_SOURCE}auth/accept_terms`, user)
+}
+
 export function getUserCookie(cookies) {
-    return cookies.get('maspost-user') || {};
+    return cookies.get('maspost-user');
+}
+
+export function setUserCookie(cookies, user) {
+    return cookies.set('maspost-user', user, { path: '/' });
 }
 
 export function isLoggedIn(userCookie) {
@@ -24,7 +42,7 @@ export function isLoggedIn(userCookie) {
 }
 
 export function logOut(cookies) {
-    return cookies.remove('user');
+    return getUserCookie(cookies) && cookies.remove('maspost-user');
 }
 
 export function isSuperAdmin(userCookie) {

@@ -143,3 +143,12 @@ input[type="checkbox"]:checked:after {
     margin-left: 10px;
   }
 }
+
+.document-reader {
+  background-color: $main_light_gray;
+  overflow: scroll;
+  height:  400px;
+  width: 60vw;
+  padding: 40px 30px;
+  margin-bottom: 30px;
+}

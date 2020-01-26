@@ -23,9 +23,6 @@ class NewUserForm extends React.Component {
         };
     }
 
-    handleSubmit(values, setSubmitting) {
-        console.log('SUBMIT!', values, setSubmitting);
-    }
 
     render() {
         return (
@@ -34,7 +31,7 @@ class NewUserForm extends React.Component {
                 <Formik
                     validationSchema={NewUserSchema}
                     initialValues={{ email: '', password: '', confirmPassword: '', pmb: '' }}
-                    onSubmit={this.handleSubmit}
+                    onSubmit={this.props.onSubmit}
                 >
                     {({
                           values,
@@ -84,9 +81,9 @@ class NewUserForm extends React.Component {
                                 />
                                 {errors.confirmPassword && touched.confirmPassword && <p className='form-message form-message-error'>{errors.confirmPassword}</p> }
                             </div>
-                            <div class="content-container-float-right">
+                            <div className="content-container-float-right">
                                 <button className="btn btn-default" type="submit" disabled={isSubmitting}>
-                                    Siguiente
+                                    Crear
                                 </button>
                             </div>
                         </Form>)}

@@ -1,9 +1,8 @@
 .content-container {
-  height: 84vh;
+  height: auto;
   width: 100vw;
   background-color: $main_light_gray;
-  overflow-y: scroll;
-
+  min-height: calc(100vh - 104px - 5vh);
   &-with-padding {
     padding: 2rem;
   }
@@ -16,8 +15,7 @@
   }
 
   &-align-center {
-    margin-left: 0;
-    margin-right: 0;
+    margin: auto 0  40px;
     text-align: center;
   }
 
@@ -27,6 +25,7 @@
 }
 
 .landing-page {
+  padding: 50px;
   background-position: center;
   background-size: cover;
   color: $white;

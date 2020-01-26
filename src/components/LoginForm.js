@@ -1,22 +1,23 @@
 import React from 'react';
-import {login} from '../helpers/authentification';
+import {login, setUserCookie} from '../helpers/authentification';
 import { withRouter } from "react-router-dom";
 import {CircularProgress, TextField} from "@material-ui/core";
 
 class LoginForm extends React.Component {
     constructor(props) {
+        console.log('ERRROR', props.errorMessage);
         super(props);
         this.state = {
             username: '',
             password: '',
-            errorMessage: '',
-            errorEnabled: false,
+            errorMessage: props.errorMessage || '',
+            errorEnabled: !!props.errorMessage,
             submitting: false
         };
     }
 
     handleSubmit(event) {
-        const { cookies, isAdmin } = this.props;
+        const { isAdmin } = this.props;
 
         event.preventDefault();
         this.setState({
@@ -26,8 +27,8 @@ class LoginForm extends React.Component {
                 if (res.status === 200) {
                     const user = res.data;
                     const isSuperAdmin = user.tipo && user.tipo === 1;
-                    cookies.set('maspost-user', user, { path: '/' });
                     const userType = isSuperAdmin ? 'superadmin' : 'user';
+                    setUserCookie();
                     return this.redirectToUrl(userType);
                 }
             }).catch((e) => {

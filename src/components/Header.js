@@ -11,26 +11,36 @@ function Header(props) {
                         <img src={logo} alt="" border="0"/>
                     </a>
                     {
-                        props.showNavigation &&
-                            <React.Fragment>
-                                <button type="button" className="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
-                                    <span className="sr-only">Toggle navigation</span>
-                                    <span className="icon-bar"></span>
-                                    <span className="icon-bar"></span>
-                                    <span className="icon-bar"></span>
-                                </button>
-                                <ul className="nav navbar-nav">
-                                    <li><Link to="/">Home</Link></li>
-                                    <li><Link to="/inventario">Inventario</Link></li>
-                                    <li><Link to="/logout">Logout</Link></li>
-                                </ul>
-                                <div className="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
-                                    <ul className="nav navbar-nav">
+                        props.isLoggedIn &&
+                        <React.Fragment>
+                            <button type="button" className="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
+                                <span className="sr-only">Toggle navigation</span>
+                                <span className="icon-bar"></span>
+                                <span className="icon-bar"></span>
+                                <span className="icon-bar"></span>
+                            </button>
+                            <ul className="nav navbar-nav">
+                                {
+                                    props.isLoggedIn &&
+                                    <React.Fragment>
                                         <li><Link to="/">Home</Link></li>
                                         <li><Link to="/inventario">Inventario</Link></li>
-                                        <li><Link to="/logout">Logout</Link></li>
-                                    </ul>
-                                </div>
+                                    </React.Fragment>
+                                }
+                                <li><Link to="/logout">Logout</Link></li>
+                            </ul>
+                            <div className="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+                                <ul className="nav navbar-nav">
+                                    {
+                                        props.isLoggedIn &&
+                                        <React.Fragment>
+                                            <li><Link to="/">Home</Link></li>
+                                            <li><Link to="/inventario">Inventario</Link></li>
+                                        </React.Fragment>
+                                    }
+                                    <li><Link to="/logout">Logout</Link></li>
+                                </ul>
+                            </div>
                         </React.Fragment>
                     }
                 </div>
