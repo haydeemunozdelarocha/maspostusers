@@ -1,38 +1,29 @@
 import React from 'react';
-import {login} from "../helpers/authentification";
-import {timelineLabels} from "../helpers/formatting";
-import {getAutorizados} from "../helpers/customers";
+import { submitExpressPickup, submitPackageAuth } from "../helpers/inventory";
+import { FormControl } from '@material-ui/core';
+import SubmittingForm from "./SubmittingForm";
+import { packageAuthFormTypes } from "../helpers/inventory";
+import DateTimeSelect from "./DateTimeSelect";
+import AuthorizedPickupNameSelect from "./AuthorizedPickupNameSelect";
+import moment from 'moment';
+
+const today = moment().format('DD-MM-YYYY');
+const defaultTimeout = 2000;
 
 class PackageAuthForm extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
             packageAuthInfo: {
-                date: '',
-                time: '',
-                name: '',
+                date: today,
+                time: 'none',
+                name: null,
             },
             errorMessage: '',
             errorEnabled: false,
-            autorizados: []
+            isSubmitting: false,
+            isSubmitted: false
         };
-    }
-
-    componentWillMount() {
-        this.getAuthorizedNameOptions();
-    }
-
-    handleSubmit(event) {
-        event.preventDefault();
-        login(this.state.packageAuthInfo).then(res => {
-            if (res.status === 200) {
-            }
-        }).catch((e) => {
-            this.setState({
-                errorEnabled: true,
-                errorMessage: 'Usuario o contraseña inválida.'
-            })
-        })
     }
 
     resetError() {
@@ -42,49 +33,102 @@ class PackageAuthForm extends React.Component {
         })
     }
 
-    handleChange(event) {
+    handleChange(name, value) {
+        console.log('hhh', name, value)
         this.resetError();
+
         this.setState({
-            [event.target.name]: event.target.value
+            packageAuthInfo: {
+                ...this.state.packageAuthInfo,
+                ...{
+                    [name]: value
+                }
+            }
         })
     }
 
-    getTimeOptions() {
-        const timesAvailable = timelineLabels('09:30 AM', '04:30 PM', '30');
-        return timesAvailable.map((time, index) => <option key={`option_time_${index}`} value={time}>{time}</option>);
-    }
+    onSubmit(popup, details) {
+        const {pmb, packages, onStartSubmit } = this.props;
+        this.resetError();
+        this.setState({
+            isSubmitted: true,
+            isSubmitting: true,
+        });
+        const action = popup === packageAuthFormTypes.EXPRESS_PICKUP ? submitExpressPickup : submitPackageAuth;
+        const params = {...details, pmb, packages};
 
-    getAuthorizedNameOptions() {
-        getAutorizados(this.props.pmb).then((response) => {
-            if (response.status === 200 && response.data) {
-                return response.data.map((autorizado) => {
-                    this.setState({
-                        autorizados: response.data.map((autorizado) => autorizado.nombre)
-                    });
-                });
-            }
+        if (onStartSubmit) {
+            onStartSubmit();
+        }
+
+        action(params).then((response) => {
+            this.setState({
+                isSubmitting: false
+            }, () => {
+                if (response.status === 200) {
+                    setTimeout(() => {
+                        this.successSubmitCallback(popup);
+                    }, defaultTimeout);
+                }
+            });
+        }).catch(() => {
+            this.failSubmitCallback(popup);
+
         });
     }
 
-    render() {
+    failSubmitCallback() {
+        const {onEndSubmit } = this.props;
 
-        return (
-            <form className="form">
-                <label>Día</label>
-                <input className="form-control" name="date" type="date" onChange={this.handleChange.bind(this)}/>
-                <label>Hora</label>
-                <select className="form-control">
-                    <option value="">Selecciona una hora</option>
-                    {this.getTimeOptions()}
-                </select>
-                <label>Quién va a recojer?</label>
-                <select className="form-control">
-                    <option value="">Selecciona un nombre de la lista</option>
-                    {this.state.autorizados.map((nombre, index) => <option key={`option_name_${index}`} value={nombre}>{nombre}</option>)}
-                </select>
-                <input name="button" type="submit" value="Autorizar" className="btn btn-default form-button" />
-            </form>
-        );
+        setTimeout(() => {
+            this.setState({
+                isSubmitted: false,
+                errorMessage: 'Hubo un error al enviar tu solicitud, por favor inténtalo de nuevo',
+                errorEnabled: true
+            });
+
+            if (onEndSubmit) {
+                onEndSubmit();
+            }
+        }, defaultTimeout);
+    }
+
+    successSubmitCallback(popup) {
+        const { onEndSubmit } = this.props;
+
+        if (onEndSubmit) {
+            onEndSubmit(popup);
+        }
+
+        setTimeout(() => {
+            this.setState({
+                isSubmitted: false,
+            });
+        }, 400)
+    }
+
+    render() {
+        const { isSubmitting, isSubmitted, packageAuthInfo, errorEnabled, errorMessage } = this.state;
+        const { formType, pmb } = this.props;
+
+        return (<React.Fragment>
+            {
+                errorEnabled &&
+                <div className={`form-error-wrapper ${errorEnabled ? 'form-error-wrapper__show' : ''}`} dangerouslySetInnerHTML={{__html: errorEnabled ? errorMessage : ''}}></div>
+            }
+            {
+                isSubmitted ?
+                    <SubmittingForm isSubmitted={isSubmitted} isSubmitting={isSubmitting}/> :
+                    <FormControl className="form">
+                        {
+                            formType === packageAuthFormTypes.EXPRESS_PICKUP &&
+                            <DateTimeSelect date={packageAuthInfo.date} time={packageAuthInfo.time} onChange={(type, value) => this.handleChange(type, value)}/>
+                        }
+                        <AuthorizedPickupNameSelect pmb={pmb} name={packageAuthInfo.name} onChange={(value)=> this.handleChange('name', value)}/>
+                        <input name="button" type="button" onClick={()=> this.onSubmit(formType, this.state.packageAuthInfo)} value="Programar" className="btn btn-default form-button" />
+                    </FormControl>
+            }
+        </React.Fragment>);
     }
 }
 

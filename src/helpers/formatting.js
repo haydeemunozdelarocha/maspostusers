@@ -57,6 +57,10 @@ export function formatInventoryData(data, keys, options) {
     });
 }
 
+export function capitalizeFirstLetter(string) {
+    return string.charAt(0).toUpperCase() + string.slice(1);
+}
+
 export function formatDataKey(data, keyToFormat, formatter, options) {
     let keys = Object.keys(data);
     keys.forEach((key) => {
@@ -99,6 +103,13 @@ export function timelineLabels(start, end, interval) {
     }
     return timeStops;
 };
+
+export function formatName(name) {
+    const splitInSpaces = name.trim().toLowerCase().split(' ');
+
+    const camelCaseWords = splitInSpaces.map((word) =>  capitalizeFirstLetter(word));
+    return camelCaseWords.join(' ');
+}
 
 export function getSpanishMonthName(monthNumber) {
     const months = {

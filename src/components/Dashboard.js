@@ -60,7 +60,7 @@ class Dashboard extends React.Component {
                             </div>
                             <div className="panel">
                                 <div className="panel-body panel-center">
-                                    <iframe className="content-iframe" src="https://maspost.herokuapp.com/w/puentes" width="100%" height="220"></iframe>
+                                    <iframe title="reporte" lassName="content-iframe" src="https://maspost.herokuapp.com/w/puentes" width="100%" height="220"></iframe>
                                 </div>
                             </div>
                         </div>

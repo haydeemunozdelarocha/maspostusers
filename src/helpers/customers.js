@@ -17,18 +17,13 @@ export function getInventario(pmb, status, date) {
             queryData.year = moment(date, 'DD/MM/YYYY').year();
         }
     }
-    console.log('getting inventario', queryData);
     return axios.get(`${process.env.REACT_APP_MASPOST_SOURCE}recepcion/all`, {responseType: 'json', params: queryData});
 }
 
 export function getAutorizados(pmb) {
-    return axios.get(`${process.env.REACT_APP_MASPOST_SOURCE}clientes/autorizados`, {responseType: 'json', params: {pmb: pmb}});
+    return axios.get(`${process.env.REACT_APP_MASPOST_SOURCE}clientes/autorizados_entrega`, {responseType: 'json', params: {pmb: pmb}});
 }
 
 export function getClientesRecibir() {
     return axios.get(`${process.env.REACT_APP_MASPOST_SOURCE}clientes/recibir`, {responseType: 'json', params: {}});
-}
-
-export function submitPackageAuth(pmb) {
-    return true;
 }

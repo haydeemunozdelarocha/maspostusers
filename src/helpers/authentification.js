@@ -1,8 +1,11 @@
 import axios from 'axios';
-let header = new Headers({
-    'Access-Control-Allow-Origin':'*',
-    'Content-Type': 'multipart/form-data'
-});
+import {UserCookie} from '../models/UserCookie';
+
+export const userTypes = {
+    ADMIN: 'admin',
+    SUPER_ADMIN: 'superAdmin',
+    USER: 'user'
+};
 
 export function registerNewUser(email, password, pmb) {
     const user = { email, password, pmb};
@@ -33,8 +36,9 @@ export function getUserCookie(cookies) {
     return cookies.get('maspost-user');
 }
 
-export function setUserCookie(cookies, user) {
-    return cookies.set('maspost-user', user, { path: '/' });
+export function setUserCookie(cookies, user, userType) {
+    const userCookie = new UserCookie({...user, userType});
+    return cookies.set('maspost-user', userCookie, { path: '/' });
 }
 
 export function isLoggedIn(userCookie) {
@@ -46,5 +50,5 @@ export function logOut(cookies) {
 }
 
 export function isSuperAdmin(userCookie) {
-    return userCookie ? Object.keys(userCookie).length > 0 && userCookie.hasOwnProperty('tipo') && userCookie.tipo == 1 : false;
+    return userCookie ? Object.keys(userCookie).length > 0 && userCookie.hasOwnProperty('userType') && userCookie.userType === userTypes.SUPER_ADMIN : false;
 }

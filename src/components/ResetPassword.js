@@ -1,7 +1,7 @@
 import React from 'react';
 import { withCookies } from 'react-cookie';
 import LandingPage from "./LandingPage";
-import {resetPassword} from "../helpers/authentification";
+import {resetPassword, setUserCookie} from "../helpers/authentification";
 import {CircularProgress, TextField} from "@material-ui/core";
 import { withRouter } from "react-router-dom";
 import queryString from 'query-string'
@@ -44,14 +44,17 @@ class ResetPassword extends React.Component {
                         this.setState({
                             submitting: false,
                             errorEnabled: true,
-                            errorMessage: 'Listo! Tu contraseña ha sido actualizada. Para ingresar a tu perfil haz click <a href="/">aqui</a>'
-                        }, this.clearForm);
+                        }, () => {
+                            this.clearForm();
+                            setUserCookie(this.props.cookies, res.data);
+                            this.props.history.push('/')
+                        });
                     }
                 }).catch((e) => {
                     this.setState({
                         submitting: false,
                         errorEnabled: true,
-                        errorMessage: e.response.data
+                        errorMessage: e.message
                     })
                 })
             } else {

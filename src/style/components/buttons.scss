@@ -51,3 +51,12 @@
     margin-left: 1rem;
   }
 }
+
+button {
+  outline: none !important;
+
+  .disabled {
+    opacity: .9;
+    pointer-events: none;
+  }
+}

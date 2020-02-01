@@ -1,13 +1,27 @@
 label {
-  padding-top: 1rem;
+  padding-top: 2rem;
 }
 
 input {
-  max-width: 350px;
   margin-bottom: 25px;
 }
 
+.submitting-form {
+  height: 100%;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  min-height: 350px;
+
+  .MuiCircularProgress-root {
+    margin-bottom: 3rem;
+  }
+}
+
 .form {
+
   &-light {
     .MuiInputBase-root, .MuiInputLabel-formControl, .MuiOutlinedInput-root:hover, .MuiInputLabel-formControl:active, .MuiInputLabel-formControl:hover {
       color: #FFF;
@@ -31,6 +45,27 @@ input {
         color: #FFF;
       }
     }
+  }
+
+  .MuiSelect-select {
+    height: 100%;
+    display: flex;
+    align-items: center;
+    padding-top: 0;
+    padding-bottom: 0;
+  }
+
+  .Mui-Select-selectMenu {
+    height: 30px;
+    padding-bottom: 0;
+    margin-bottom: 0;
+    padding-top: 20px;
+    padding-left: 5px;
+  }
+
+  .MuiFormControl-root, .MuiInputBase-root {
+    margin-top: 0;
+    height: 50px;
   }
 
   &-button {
@@ -100,8 +135,8 @@ input {
   color: $main_dark;
   border-radius: $border-radius;
   padding: 1rem;
-  margin-bottom: 1rem;
-  width: 50%;
+  margin: 1rem auto;
+  width: auto;
   opacity: 0;
   transition: all ease .3s;
 
@@ -151,4 +186,27 @@ input[type="checkbox"]:checked:after {
   width: 60vw;
   padding: 40px 30px;
   margin-bottom: 30px;
+}
+
+input:-webkit-autofill,
+input:-webkit-autofill:hover,
+input:-webkit-autofill:focus,
+input:-webkit-autofill:active  {
+  -webkit-box-shadow: 0 0 0 30px rgba(0,0,0,0) inset !important;
+}
+
+.MuiInput-underline:hover:not(.Mui-disabled):before {
+  border-bottom: 2px solid $main_color !important;
+}
+
+.MuiInput-underline:before {
+  border-bottom: 2px solid $main_dark !important;
+}
+
+.MuiSvgIcon-root {
+  fill: $main_dark !important;
+}
+
+.MuiTextField-root {
+
 }

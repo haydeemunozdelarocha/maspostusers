@@ -33,7 +33,7 @@ class ForgotPassword extends React.Component {
                 this.setState({
                     submitting: false,
                     errorEnabled: true,
-                    errorMessage: e.response.data
+                    errorMessage: e.message
                 })
             })
         })

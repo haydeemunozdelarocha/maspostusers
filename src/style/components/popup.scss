@@ -1,3 +1,6 @@
+.MuiDialog-root {
+  z-index: 2;
+}
 .popup-wrapper {
   width: 60%;
   background-color: white;
@@ -37,6 +40,11 @@
 .popup-close {
   float: right;
   cursor: pointer;
+  height: 20px;
+  width: 20px;
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path d="M24 20.188l-8.315-8.209 8.2-8.282-3.697-3.697-8.212 8.318-8.31-8.203-3.666 3.666 8.321 8.24-8.206 8.313 3.666 3.666 8.237-8.318 8.285 8.203z"/></svg>');
 }
 
 .popup-header {
@@ -52,4 +60,63 @@
   transition: opacity .8s;
 }
 
+.MuiAutocomplete-popup {
+  z-index: 1500 !important;
+}
 
+.MuiDialogContent-root {
+  margin: auto;
+}
+
+.popup-dialog {
+
+  .form-error-wrapper {
+    max-width: 400px;
+  }
+
+  .MuiPaper-root {
+    background-color: $main_light_gray;
+    min-width: 400px;
+  }
+
+  .form, .Mui-InputBase-root, .MuiAutocomplete-root {
+    width: 400px;
+  }
+
+  @media (max-width: $breakpoint-mobile) {
+
+    .form-error-wrapper {
+      max-width: 80vw;
+    }
+
+    .MuiDialogTitle-root {
+      background-color: $main_color;
+      color: white;
+
+    }
+
+    .popup-close {
+      height: 40px;
+      width: 40px;
+      background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path fill="white" d="M24 20.188l-8.315-8.209 8.2-8.282-3.697-3.697-8.212 8.318-8.31-8.203-3.666 3.666 8.321 8.24-8.206 8.313 3.666 3.666 8.237-8.318 8.285 8.203z"/></svg>');
+    }
+
+    .form, .Mui-InputBase-root, .MuiAutocomplete-root {
+      width: 80vw;
+    }
+
+    .form-button {
+      height: 70px;
+      width: 100%;
+      max-width: unset;
+    }
+
+    .form {
+      .MuiInputAdornment-positionEnd {
+        .MuiIconButton-label {
+          justify-content: flex-end;
+        }
+      }
+    }
+  }
+}

@@ -1,7 +1,7 @@
 import React from "react";
 import NewUserForm from "./NewUserForm";
 import TermsForm from "./TermsForm";
-import {getUserCookie,acceptTerms, registerNewUser, setUserCookie} from "../helpers/authentification";
+import { acceptTerms, registerNewUser, setUserCookie } from "../helpers/authentification";
 import { withCookies } from 'react-cookie';
 import { withRouter } from "react-router-dom";
 
@@ -23,7 +23,6 @@ class Register extends React.Component {
             step:  props.user ?  props.user.perfil_status : 0,
             isLoggedIn: !!props.user
         }
-        console.log('STATE', this.state, props.user);
     }
 
     renderStep() {
@@ -36,7 +35,6 @@ class Register extends React.Component {
 
     acceptTerms() {
         acceptTerms(this.props.user.id, this.props.user.pmb).then((response) => {
-            console.log('RESPOMNSE AACCEPT', response);
             if (response.status === 200) {
                 setUserCookie(this.props.cookies, response.data);
                 this.props.history.push('/')
@@ -52,7 +50,7 @@ class Register extends React.Component {
                     if (!this.state.isLoggedIn) {
                         setUserCookie(this.props.cookies, response.data);
                     }
-                    console.log('redirecting');
+
                     this.props.history.push(null, '/')
                 }
 

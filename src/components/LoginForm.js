@@ -2,10 +2,10 @@ import React from 'react';
 import {login, setUserCookie} from '../helpers/authentification';
 import { withRouter } from "react-router-dom";
 import {CircularProgress, TextField} from "@material-ui/core";
+import {userTypes} from "../helpers/authentification";
 
 class LoginForm extends React.Component {
     constructor(props) {
-        console.log('ERRROR', props.errorMessage);
         super(props);
         this.state = {
             username: '',
@@ -17,7 +17,7 @@ class LoginForm extends React.Component {
     }
 
     handleSubmit(event) {
-        const { isAdmin } = this.props;
+        const { isAdmin, cookies } = this.props;
 
         event.preventDefault();
         this.setState({
@@ -26,9 +26,10 @@ class LoginForm extends React.Component {
             login(this.state.username, this.state.password, isAdmin).then(res => {
                 if (res.status === 200) {
                     const user = res.data;
-                    const isSuperAdmin = user.tipo && user.tipo === 1;
-                    const userType = isSuperAdmin ? 'superadmin' : 'user';
-                    setUserCookie();
+                    const isSuperAdmin = user.tipo && user.tipo == 1;
+                    console.log('isSuperAdmin',isSuperAdmin)
+                    const userType = isSuperAdmin ? userTypes.SUPER_ADMIN : userTypes.USER;
+                    setUserCookie(cookies, user, userType);
                     return this.redirectToUrl(userType);
                 }
             }).catch((e) => {
@@ -43,10 +44,10 @@ class LoginForm extends React.Component {
 
     redirectToUrl(userType) {
         switch(userType) {
-            case 'user':
-                return this.props.history.push("/");
             case 'superadmin':
                 return this.props.history.push("/admin/dashboard");
+            default:
+                return this.props.history.push("/");
         }
     }
 
@@ -67,7 +68,6 @@ class LoginForm extends React.Component {
     render() {
         return (
             <div className="login-form-wrapper">
-                <h2>PORTAL DE USUARIOS</h2>
                 <div className={`form-error-wrapper ${this.state.errorEnabled ? 'form-error-wrapper__show' : ''}`} dangerouslySetInnerHTML={{__html: this.state.errorEnabled ? this.state.errorMessage : ''}}></div>
                 <form className="form-centered form-light" onSubmit={this.handleSubmit.bind(this)}>
                     <TextField

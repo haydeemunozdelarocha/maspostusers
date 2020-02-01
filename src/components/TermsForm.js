@@ -11,7 +11,6 @@ class TermsForm extends React.Component {
     }
 
     acceptTerms(accepted) {
-        console.log('ACCEPTING TERMS', )
         this.setState({
             accepted: accepted
         })

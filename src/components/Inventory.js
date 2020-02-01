@@ -1,16 +1,16 @@
 import Table from "./Table";
 import Popup from "./Popup";
-import {getInventario} from "../helpers/customers";
+import {getInventario, submitExpressPickup, submitPackageAuth} from "../helpers/customers";
 import {getUserCookie} from "../helpers/authentification";
 import {formatInventoryData, getDataKeys, getSpanishMonthName} from "../helpers/formatting";
 import React from "react";
 import {withCookies} from "react-cookie";
-import ExpressPickupForm from "./ExpressPickupForm";
 import PackageAuthForm from "./PackageAuthForm";
 import CardList from "./CardList";
 import Select from '@material-ui/core/Select';
 import MenuItem from '@material-ui/core/MenuItem';
 import moment from 'moment';
+import {packageAuthFormTypes} from "../helpers/inventory";
 
 const dateFormat = 'DD/MM/YYYY';
 
@@ -19,12 +19,12 @@ class Inventory extends React.Component {
         super(props);
 
         const { cookies } = this.props;
-        this.packageAuthPopup = React.createRef();
-        this.packageExpressPickupPopup = React.createRef();
+        this[packageAuthFormTypes.EXPRESS_PICKUP] = React.createRef();
+        this[packageAuthFormTypes.NAME_AUTH] = React.createRef();
         this.filterDates = [];
 
         this.state = {
-            pmb: getUserCookie(cookies) ? getUserCookie(cookies).pmb : null,
+            pmb: !!getUserCookie(cookies) ? getUserCookie(cookies).pmb : null,
             selectedPackages: [],
             inventory: [],
             inventoryStatus: 'en_bodega',
@@ -32,7 +32,8 @@ class Inventory extends React.Component {
             headers: [],
             isDesktop: false,
             isLoading: true,
-            allSelected: false
+            allSelected: false,
+            hidePopupHeader: false
         };
 
         this.getDatesForFilter();
@@ -66,12 +67,9 @@ class Inventory extends React.Component {
     }
 
     componentDidMount() {
+        this.getData();
         this.updateWindowSize();
         window.addEventListener("resize", this.updateWindowSize);
-    }
-
-    componentWillMount() {
-        this.getData();
     }
 
     componentDidUpdate(prevProps, prevState, snapshot) {
@@ -102,34 +100,36 @@ class Inventory extends React.Component {
     }
 
     addPackage(item) {
-        const isSameId = (updatedPackage) => item.id === updatedPackage.id;
-        const isAlreadyAdded = this.state.selectedPackages.findIndex(isSameId) > -1;
+        console.log('adding item', item);
+        const isSameId = (id) => item.ID === id;
+        const isAlreadyAdded = this.state.selectedPackages.indexOf(isSameId) > -1;
+
         item.isSelected = !isAlreadyAdded;
         const updatedPackages = isAlreadyAdded ?
             this.state.selectedPackages.filter(isSameId) :
-            [...this.state.selectedPackages, item];
+            [...this.state.selectedPackages, item.ID];
+
         this.setState({
             selectedPackages: updatedPackages,
         });
     }
 
-    selectAll() {
+    selectAll(forceValue) {
         const {inventory, allSelected} = this.state;
-
+        const isSelectedValue = forceValue !== undefined ? forceValue : !allSelected;
+        const selectedPackages = [];
         const updatedPackages = inventory.map((item) => {
-            item.isSelected = !allSelected;
+            item.isSelected = isSelectedValue;
+            selectedPackages.push(item.ID);
+
             return item;
         });
 
         this.setState({
             inventory: updatedPackages,
-            selectedPackages: !allSelected ? updatedPackages : [],
-            allSelected: !allSelected
+            selectedPackages: isSelectedValue ? selectedPackages : [],
+            allSelected: isSelectedValue
         })
-    }
-
-    submitted(popup) {
-        popup.close();
     }
 
     setInventoryStatus(event) {
@@ -148,17 +148,35 @@ class Inventory extends React.Component {
         this.setState({ isDesktop: window.innerWidth > 800 });
     }
 
+    onFormSubmit(popup) {
+        this.selectAll(false);
+
+        if (popup) {
+            this[popup].close();
+        }
+
+        this.setState({
+            hidePopupHeader: false
+        });
+    }
+
+    onStartFormSubmit() {
+        this.setState({
+            hidePopupHeader: true
+        });
+    }
+
     render() {
-        const {isDesktop, allSelected, selectedPackages, pmb, inventoryStatus, timeframe, inventory, isLoading, headers } = this.state;
-        console.log('RENDERING AGAIN', this.state);
+        const {isDesktop, allSelected, hidePopupHeader, selectedPackages, pmb, inventoryStatus, timeframe, inventory, isLoading, headers } = this.state;
+        console.log('allSelected',allSelected)
         return (
             <div className="content-container content-container-with-padding" style={{backgroundColor: '#f6f6f6'}}>
                 <div className="button-group button-group-right">
-                    <Popup title="Programa tu entrega:" buttonLabel="Entrega Express" ref={(popup) => { this.packageExpressPickupPopup = popup}}>
-                        <ExpressPickupForm hasSubmitted={() => this.submitted(this.packageExpressPickupPopup)} pmb={pmb} packages={selectedPackages}/>
+                    <Popup hideHeader={hidePopupHeader} disableOpen={selectedPackages.length === 0} title="Programa tu entrega" buttonLabel="Entrega Express" ref={(popup) => { this[packageAuthFormTypes.EXPRESS_PICKUP] = popup}}>
+                        <PackageAuthForm onEndSubmit={(popup) => this.onFormSubmit(popup)} onStartSubmit={() => this.onStartFormSubmit()} formType={packageAuthFormTypes.EXPRESS_PICKUP} pmb={pmb} packages={selectedPackages}/>
                     </Popup>
-                    <Popup title="Autorización:" buttonLabel="Autorización" ref={(popup) => { this.packageAuthPopup = popup}}>
-                        <PackageAuthForm pmb={pmb} packages={selectedPackages}/>
+                    <Popup hideHeader={hidePopupHeader} disableOpen={selectedPackages.length === 0} title="Autorización" buttonLabel="Autorización" ref={(popup) => { this[packageAuthFormTypes.NAME_AUTH] = popup}}>
+                        <PackageAuthForm onEndSubmit={(popup) => this.onFormSubmit(popup)} onStartSubmit={() => this.onStartFormSubmit()} formType={packageAuthFormTypes.NAME_AUTH} pmb={pmb} packages={selectedPackages}/>
                     </Popup>
                 </div>
                 <div className="panel panel-home panel-default">
@@ -168,7 +186,6 @@ class Inventory extends React.Component {
                     <div className="panel-body">
                         <div className="table-filters">
                             <Select
-                                labelId="demo-simple-select-label"
                                 id="demo-simple-select"
                                 value={inventoryStatus}
                                 onChange={(e) => this.setInventoryStatus(e)}
