@@ -1,6 +1,5 @@
 export class UserCookie {
     constructor(data) {
-        console.log('data', data);
         this.id = data.id;
         this.userType = data.userType;
         this.name = data.nombre;

@@ -1,6 +1,6 @@
 import React from 'react';
 import { Autocomplete } from '@material-ui/lab';
-import {FormControl, TextField} from "@material-ui/core";
+import {TextField} from "@material-ui/core";
 import { getAutorizados } from "../helpers/customers";
 import { formatName } from "../helpers/formatting";
 
@@ -9,9 +9,8 @@ class AuthorizedPickupNameSelect extends React.Component {
         super(props);
 
         this.state = {
-            autorizados: [{
-                nombre: 'juan'
-            }]
+            autorizados: [],
+            hasErrorMessage: false
         };
     }
 
@@ -35,30 +34,44 @@ class AuthorizedPickupNameSelect extends React.Component {
         });
     }
 
-    render() {
-        const {name, onChange} = this.props;
-        const {autorizados} = this.state;
+    onInput(e, value) {
+        const {onChange} = this.props;
+        this.setState({
+            hasErrorMessage: value && value.length === 0
+        });
 
+        return onChange(value);
+    }
+
+    render() {
+        const {name} = this.props;
+        const {autorizados, hasErrorMessage} = this.state;
         return (
             <div className="mp-authorized-name-select">
-                <label>Quién va a recoger?</label>
                 <div className="dialog-autocomplete">
                     {
                         autorizados.length > 0 &&
                         <Autocomplete
                             freeSolo
-                            onChange={(e, value) => onChange(value)}
+                            onChange={(e, value) => this.onInput(e, value)}
                             value={name}
                             style={{zIndex: '10'}}
                             options={autorizados.map(option => option.nombre)}
                             renderInput={params => (
                                 <TextField
+                                    required
                                     {...params}
-                                    onInput={(e) => onChange(e.target.value)}
-                                    margin="normal"
                                     variant="outlined"
+                                    onInput={(e) => this.onInput(e)}
+                                    margin="normal"
+                                    label={"Quién va a recoger?"}
                                     fullWidth
+                                    error={hasErrorMessage}
                                     InputProps={{ ...params.InputProps, type: 'search' }}
+                                    helperText="Si el nombre del autorizado no aparece en la lista, solamente agrega un nombre nuevo."
+                                    InputLabelProps={{
+                                        shrink: true,
+                                    }}
                                 />
                             )}
                         />

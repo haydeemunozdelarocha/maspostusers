@@ -34,9 +34,10 @@ const App = (props) => {
     const isUserLoggedInAndSuperAdmin = isSuperAdmin(userCookie) && isUserLoggedIn;
     const isUserRegistrationComplete = isSuperAdmin(userCookie) ? true : !!userCookie && (userCookie.profileStatus !== '0' && userCookie.profileStatus !== '1');
     const logoutAndRedirect = (e) => {
+        console.log('loggin out');
         logOut(cookies);
-        console.log('user', userCookie);
-        if (e.match.path && e.match.path.includes('admin')) {
+
+        if (e.match && e.match.path && e.match.path.includes('admin')) {
             return <Redirect to={{ pathname: '/admin', props: {user: undefined} }} />;
         }
 
@@ -44,9 +45,12 @@ const App = (props) => {
     };
 
     const checkAdminUser = (e) => {
-        if (isUserLoggedIn && !isSuperAdmin(userCookie)) {
-            return logoutAndRedirect(!isUserLoggedIn);
+        if (isUserLoggedIn) {
+            if (!isSuperAdmin(userCookie)) {
+                return logoutAndRedirect(!isUserLoggedIn);
+            }
         }
+
         return getAdminComponent(e.match.path);
     };
 
@@ -54,18 +58,21 @@ const App = (props) => {
         if (isUserLoggedInAndSuperAdmin) {
             switch(route) {
                 case '/admin/confirm-express-pickup':
+                    console.log('confirm express!');
                     return <ConfirmExpressPickup/>;
                 case '/admin/captura':
                     return <InventoryCapture/>;
                 case '/admin/dashboard':
-                case '/admin':
                     return <AdminDashboard/>;
                 case '/admin/reports':
                     return <AdminReports/>;
+                case '/admin':
+                    return <Redirect to={{ pathname: '/admin/dashboard', props: {user: userCookie} }} />;
                 default:
                     return <Redirect to={{ pathname: '/admin', props: {user: userCookie} }} />;
             }
         } else {
+            console.log('login!');
             return <LoginPage isAdmin={true}/>;
         }
     };
@@ -102,7 +109,7 @@ const App = (props) => {
 
                         return <Register user={{profileStatus: 0}}/>;
                     }} />
-                    <Route path="/admin" render={(e) => checkAdminUser(e, true)} />
+                    <Route path="/admin" exact render={(e) => checkAdminUser(e, true)} />
                     <Route path="/admin/confirm-express-pickup" exact render={checkAdminUser} />
                     <Route path="/admin/captura" exact render={checkAdminUser} />
                     <Route path="/admin/dashboard" exact render={checkAdminUser} />

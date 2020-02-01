@@ -61,14 +61,12 @@
 }
 
 .MuiAutocomplete-popup {
+  top: -2rem !important;
   z-index: 1500 !important;
 }
 
 .MuiDialogContent-root {
   margin: auto;
-}
-
-.popup-dialog {
 
   .form-error-wrapper {
     max-width: 400px;

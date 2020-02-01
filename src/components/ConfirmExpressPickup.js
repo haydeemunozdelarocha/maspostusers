@@ -1,29 +1,42 @@
 import React from 'react';
 import { withRouter } from "react-router-dom";
-import {formatColumnNameToLabel} from "../helpers/formatting";
-import {CircularProgress, TextField} from "@material-ui/core";
+import SubmittingForm from "./SubmittingForm";
+import {confirmExpressPickup} from "../helpers/admin";
+import queryString from 'query-string';
 
 class ConfirmExpressPickup extends React.Component {
     constructor(props) {
         super(props);
+        let params = queryString.parse(this.props.location.search);
+        const packages = params.id ? params.id.split(',') : [];
 
         this.state = {
-            isSending: true
+            isSubmitted: true,
+            isSubmitting: true,
+            packages
         };
     }
 
+    componentDidMount() {
+        confirmExpressPickup(this.state.packages).then((response) => {
+            console.log(response);
+            this.setState({
+                isSubmitting: false
+            })
+        });
+    }
+
     render() {
+        const {isSubmitted, isSubmitting} = this.state;
+
         return (
             <div className="content-container content-container-with-padding">
-                <h2>ENTREGAS EXPRESS</h2>
+                <h2>Confirmacion de Entrega Express</h2>
                 <div className="content-container-align-center">
                     <div className="panel form-panel">
                         {
-                            this.state.isSending ?
-                                <div>
-                                    <p>Estamos enviando tu solicitud para confirmar la entrega.</p>
-                                    <CircularProgress />
-                                </div> :
+                                isSubmitted ?
+                                <SubmittingForm isSubmitted={isSubmitted} isSubmitting={isSubmitting}/> :
                                 <input name="button" type="submit" id="button" value="Confirmar" className="btn white-button" />
                         }
                     </div>

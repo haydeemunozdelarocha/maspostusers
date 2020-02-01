@@ -43,7 +43,7 @@ class LoginForm extends React.Component {
 
     redirectToUrl(userType) {
         switch(userType) {
-            case 'superadmin':
+            case userTypes.SUPER_ADMIN:
                 return this.props.history.push("/admin/dashboard");
             default:
                 return this.props.history.push("/");

@@ -9,7 +9,7 @@ class Register extends React.Component {
     constructor(props) {
         super(props);
         const profileStatus = props.user ? props.user.profileStatus : 0;
-        console.log(props.user);
+
         this.state = {
             step:  this.getStepData(profileStatus),
             isLoggedIn: !!props.user
@@ -25,7 +25,6 @@ class Register extends React.Component {
     }
 
     getStepData(stepNumber) {
-        console.log('step number', stepNumber)
         switch (stepNumber) {
             case '1':
                 return {
@@ -61,20 +60,16 @@ class Register extends React.Component {
             registerNewUser(values.email, values.password, values.pmb)
                 .then((response) => {
                 if (response.status === 200) {
-                    console.log(response, isLoggedIn, getUserCookie(cookies));
                     setUserCookie(cookies, response.data, 'user');
                     const user = getUserCookie(cookies);
-                    console.log(user);
+
                     this.setState({
                         step:  this.getStepData(user.profileStatus),
                         isLoggedIn: true
                     })
-                } else {
-                    console.log('w');
                 }
 
             }).catch((e) => {
-                console.log('catch', this.props.history)
                 return this.props.history.push('/', {errorMessage: 'PMB is either invalid or already registered with another email. Please login or reset your password.'});
             })
         }

@@ -38,7 +38,6 @@ export function getUserCookie(cookies) {
 
 export function setUserCookie(cookies, user, userType) {
     const userCookie = new UserCookie({...user, userType});
-    console.log(user, userCookie);
     return cookies.set('maspost-user', userCookie, { path: '/' });
 }
 
@@ -47,7 +46,9 @@ export function isLoggedIn(userCookie) {
 }
 
 export function logOut(cookies) {
-    return getUserCookie(cookies) && cookies.remove('maspost-user');
+    if (getUserCookie(cookies)) {
+        return cookies.remove('maspost-user');
+    }
 }
 
 export function isSuperAdmin(userCookie) {

@@ -12,7 +12,7 @@ class Dashboard extends React.Component {
 
         const { cookies } = props;
         const pmb = getUserCookie(cookies) ? getUserCookie(cookies).pmb : null;
-        console.log(getUserCookie(cookies))
+
         this.state = {
             inventoryData: [],
             headers: [],

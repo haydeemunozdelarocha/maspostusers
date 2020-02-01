@@ -9,3 +9,11 @@ export function getInventoryTypeSummaryPerCustomer(startDate, endDate) {
             crossDomain: true
         });
 }
+
+export function confirmExpressPickup(packages) {
+    const data = packages.map((id) => ({
+        confirmado: 1,
+        id
+    }));
+    return axios.put(`${process.env.REACT_APP_MASPOST_SOURCE}recepcion/express_pickup`, data);
+}

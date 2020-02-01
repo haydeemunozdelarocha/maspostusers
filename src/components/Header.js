@@ -1,6 +1,7 @@
 import React from 'react';
 import logo from '../images/maspost-sm.png';
-import {Link} from "react-router-dom";
+import UserNavigation from "./UserNavigation";
+import AdminNavigation from "./AdminNavigation";
 
 function Header(props) {
     return (
@@ -21,24 +22,14 @@ function Header(props) {
                             </button>
                             <ul className="nav navbar-nav">
                                 {
-                                    props.isLoggedIn &&
-                                    <React.Fragment>
-                                        <li><Link to="/">Home</Link></li>
-                                        <li><Link to="/inventario">Inventario</Link></li>
-                                    </React.Fragment>
+                                    props.isSuperAdmin ? <AdminNavigation/> : <UserNavigation/>
                                 }
-                                <li><Link to="/logout">Logout</Link></li>
                             </ul>
                             <div className="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
                                 <ul className="nav navbar-nav">
                                     {
-                                        props.isLoggedIn &&
-                                        <React.Fragment>
-                                            <li><Link to="/">Home</Link></li>
-                                            <li><Link to="/inventario">Inventario</Link></li>
-                                        </React.Fragment>
+                                        props.isSuperAdmin ? <AdminNavigation/> : <UserNavigation/>
                                     }
-                                    <li><Link to={'/logout'}>Logout</Link></li>
                                 </ul>
                             </div>
                         </React.Fragment>

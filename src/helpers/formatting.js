@@ -128,3 +128,12 @@ export function getSpanishMonthName(monthNumber) {
     };
     return months[monthNumber] || 'Invalid month';
 }
+
+export function isWeekend(dateString) {
+    if (dateString) {
+        const day = moment(dateString).day();
+        return (day === 6) || (day === 0);
+    }
+
+    return false;
+}

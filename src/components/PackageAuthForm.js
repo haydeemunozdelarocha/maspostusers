@@ -7,7 +7,7 @@ import DateTimeSelect from "./DateTimeSelect";
 import AuthorizedPickupNameSelect from "./AuthorizedPickupNameSelect";
 import moment from 'moment';
 
-const today = moment().format('DD-MM-YYYY');
+const today = moment().format('MM-DD-YYYY');
 const defaultTimeout = 2000;
 
 class PackageAuthForm extends React.Component {
@@ -22,7 +22,8 @@ class PackageAuthForm extends React.Component {
             errorMessage: '',
             errorEnabled: false,
             isSubmitting: false,
-            isSubmitted: false
+            isSubmitted: false,
+            disableSubmit: false
         };
     }
 
@@ -36,25 +37,52 @@ class PackageAuthForm extends React.Component {
     handleChange(name, value) {
         this.resetError();
 
+        if (value && value.length === 0) {
+            this.setState({
+                disableSubmit: true,
+                errorMessage: '',
+                errorEnabled: false,
+            });
+
+            return;
+        }
+
         this.setState({
+            disableSubmit: false,
+            errorMessage: '',
+            errorEnabled: false,
             packageAuthInfo: {
                 ...this.state.packageAuthInfo,
                 ...{
                     [name]: value
                 }
             }
-        })
+        });
     }
 
     onSubmit(popup, details) {
         const {pmb, packages, onStartSubmit } = this.props;
         this.resetError();
+        const params = {...details, pmb, packages};
+        params.date = moment(params.date).format('DD-MM-YYYY');
+
+        if (!params || !params.packages || !params.name || (packageAuthFormTypes.EXPRESS_PICKUP && (!params.date || !params.time || params.time === 'none'))) {
+            this.setState({
+                disableSubmit: true,
+                errorMessage: 'Por favor llena todos los campos.',
+                errorEnabled: true,
+            });
+            return;
+        }
+
         this.setState({
             isSubmitted: true,
             isSubmitting: true,
+            disableSubmit: false,
+            errorMessage: '',
+            errorEnabled: false,
         });
         const action = popup === packageAuthFormTypes.EXPRESS_PICKUP ? submitExpressPickup : submitPackageAuth;
-        const params = {...details, pmb, packages};
 
         if (onStartSubmit) {
             onStartSubmit();
@@ -107,7 +135,7 @@ class PackageAuthForm extends React.Component {
     }
 
     render() {
-        const { isSubmitting, isSubmitted, packageAuthInfo, errorEnabled, errorMessage } = this.state;
+        const { isSubmitting, isSubmitted, disableSubmit, packageAuthInfo, errorEnabled, errorMessage } = this.state;
         const { formType, pmb } = this.props;
 
         return (<React.Fragment>
@@ -124,7 +152,7 @@ class PackageAuthForm extends React.Component {
                             <DateTimeSelect date={packageAuthInfo.date} time={packageAuthInfo.time} onChange={(type, value) => this.handleChange(type, value)}/>
                         }
                         <AuthorizedPickupNameSelect pmb={pmb} name={packageAuthInfo.name} onChange={(value)=> this.handleChange('name', value)}/>
-                        <input name="button" type="button" onClick={()=> this.onSubmit(formType, this.state.packageAuthInfo)} value="Programar" className="btn btn-default form-button" />
+                        <input disabled={disableSubmit} name="button" type="button" onClick={()=> this.onSubmit(formType, this.state.packageAuthInfo)} value="Programar" className={`btn btn-default form-button ${disableSubmit ? 'disabled' : ''}`} />
                     </FormControl>
             }
         </React.Fragment>);
