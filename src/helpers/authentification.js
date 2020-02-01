@@ -38,6 +38,7 @@ export function getUserCookie(cookies) {
 
 export function setUserCookie(cookies, user, userType) {
     const userCookie = new UserCookie({...user, userType});
+    console.log(user, userCookie);
     return cookies.set('maspost-user', userCookie, { path: '/' });
 }
 

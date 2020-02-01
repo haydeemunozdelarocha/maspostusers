@@ -12,7 +12,7 @@ class Table extends React.Component {
         const dataColumns = Object.keys(dataItem);
 
         return dataColumns.map((key, index) => {
-            return dataItem[key] && (<td key={`cell-${index}`}>{dataItem[key]}</td>)
+            return dataItem[key] && key !== 'isSelected' && (<td key={`cell-${index}`}>{dataItem[key]}</td>)
         });
     }
 
@@ -40,7 +40,7 @@ class Table extends React.Component {
         <React.Fragment>
             {
                 hasCheckbox &&
-                <label style={{float: 'right', marginBottom: '20px', marginRight: '20px'}} className="checkbox-label">Select All <input checked={allSelected} type="checkbox" onClick={(e) => selectAll()}/></label>
+                <button className="btn btn-secondary" style={{marginBottom: '20px', float: 'right'}} onClick={(e) => selectAll()}>{allSelected ? 'Unselect All' : 'Select All'}</button>
             }
             <table className="table table-striped" width="100%">
                 <thead>

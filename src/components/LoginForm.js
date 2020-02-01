@@ -27,7 +27,6 @@ class LoginForm extends React.Component {
                 if (res.status === 200) {
                     const user = res.data;
                     const isSuperAdmin = user.tipo && user.tipo == 1;
-                    console.log('isSuperAdmin',isSuperAdmin)
                     const userType = isSuperAdmin ? userTypes.SUPER_ADMIN : userTypes.USER;
                     setUserCookie(cookies, user, userType);
                     return this.redirectToUrl(userType);

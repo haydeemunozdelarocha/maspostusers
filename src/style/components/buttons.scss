@@ -23,6 +23,7 @@
 .btn-secondary {
   color: white;
   background-color: $main_color;
+  border: none;
 
   &:hover:not(:disabled) {
     color: $main_dark;

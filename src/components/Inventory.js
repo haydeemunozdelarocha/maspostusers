@@ -100,9 +100,8 @@ class Inventory extends React.Component {
     }
 
     addPackage(item) {
-        console.log('adding item', item);
-        const isSameId = (id) => item.ID === id;
-        const isAlreadyAdded = this.state.selectedPackages.indexOf(isSameId) > -1;
+        const isSameId = (id) => item.ID !== id;
+        const isAlreadyAdded = this.state.selectedPackages.indexOf(item.ID) > -1;
 
         item.isSelected = !isAlreadyAdded;
         const updatedPackages = isAlreadyAdded ?
@@ -168,7 +167,7 @@ class Inventory extends React.Component {
 
     render() {
         const {isDesktop, allSelected, hidePopupHeader, selectedPackages, pmb, inventoryStatus, timeframe, inventory, isLoading, headers } = this.state;
-        console.log('allSelected',allSelected)
+
         return (
             <div className="content-container content-container-with-padding" style={{backgroundColor: '#f6f6f6'}}>
                 <div className="button-group button-group-right">

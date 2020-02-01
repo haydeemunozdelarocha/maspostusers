@@ -32,28 +32,25 @@ const App = (props) => {
     const userCookie = getUserCookie(cookies);
     const isUserLoggedIn = isLoggedIn(userCookie);
     const isUserLoggedInAndSuperAdmin = isSuperAdmin(userCookie) && isUserLoggedIn;
-    const isUserRegistrationComplete = isSuperAdmin(userCookie) ? true : !!userCookie && userCookie.profileStatus > 1;
-    const logoutAndRedirect = (isAdmin) => {
+    const isUserRegistrationComplete = isSuperAdmin(userCookie) ? true : !!userCookie && (userCookie.profileStatus !== '0' && userCookie.profileStatus !== '1');
+    const logoutAndRedirect = (e) => {
         logOut(cookies);
-
-        if (isAdmin) {
-            return <LoginPage isAdmin={true}/>;
-        } else {
-            return <Redirect to={{ pathname: '/', props: {user: userCookie} }} />;
+        console.log('user', userCookie);
+        if (e.match.path && e.match.path.includes('admin')) {
+            return <Redirect to={{ pathname: '/admin', props: {user: undefined} }} />;
         }
+
+        return <Redirect to={{ pathname: '/', props: {user: undefined} }} />;
     };
 
     const checkAdminUser = (e) => {
-        console.log(e.match.path);
-        console.log('user', userCookie, isUserLoggedIn, isSuperAdmin(userCookie))
-        if (!isUserLoggedIn || !isSuperAdmin(userCookie)) {
+        if (isUserLoggedIn && !isSuperAdmin(userCookie)) {
             return logoutAndRedirect(!isUserLoggedIn);
         }
         return getAdminComponent(e.match.path);
     };
 
     const getAdminComponent = (route) => {
-        console.log('w', isUserLoggedInAndSuperAdmin, isUserLoggedIn)
         if (isUserLoggedInAndSuperAdmin) {
             switch(route) {
                 case '/admin/confirm-express-pickup':
@@ -77,7 +74,7 @@ const App = (props) => {
         <React.Fragment>
             <MuiThemeProvider theme={defaultTheme}>
                 <Router>
-                    <Header isLoggedIn={isUserRegistrationComplete} showLogout={isUserLoggedIn}/>
+                    <Header isSuperAdmin={isSuperAdmin(userCookie)} isLoggedIn={isUserRegistrationComplete} showLogout={isUserLoggedIn}/>
                     <Route path="/" exact render={(props) => {
                         if (isUserLoggedIn && !isSuperAdmin(userCookie)) {
                             return (isUserRegistrationComplete ? <Dashboard/> : <Redirect to={{ pathname: '/registro', props: {user: userCookie} }} />);
@@ -94,15 +91,23 @@ const App = (props) => {
                     <Route path="/reset-password" render={() => <ResetPassword />} />
                     <Route path="/home" exact render={() => (isUserLoggedIn ? <Dashboard/> : <LoginPage />)} />
                     <Route path="/inventario" exact render={() => (isUserLoggedIn ? <Inventory/> : <LoginPage />)} />
-                    <Route path="/registro" exact render={() => (isUserLoggedIn && isUserRegistrationComplete ? <Redirect to={{ pathname: '/' }} /> : <Register user={userCookie}/>)} />
-                    <Route path="/admin" render={checkAdminUser} />
+                    <Route path="/registro" exact render={() => {
+                        if (isUserLoggedIn) {
+                            if (isUserRegistrationComplete) {
+                                return <Dashboard/>;
+                            }
+
+                            return <Register user={userCookie}/>;
+                        }
+
+                        return <Register user={{profileStatus: 0}}/>;
+                    }} />
+                    <Route path="/admin" render={(e) => checkAdminUser(e, true)} />
                     <Route path="/admin/confirm-express-pickup" exact render={checkAdminUser} />
                     <Route path="/admin/captura" exact render={checkAdminUser} />
                     <Route path="/admin/dashboard" exact render={checkAdminUser} />
                     <Route path="/admin/reports" exact render={checkAdminUser} />
-                    <Route path="/logout" exact render={() => {
-                        return logoutAndRedirect();
-                    }} />
+                    <Route path="/logout" exact render={logoutAndRedirect} />
                 </Router>
             </MuiThemeProvider>
             <Footer/>

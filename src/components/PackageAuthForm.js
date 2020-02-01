@@ -34,7 +34,6 @@ class PackageAuthForm extends React.Component {
     }
 
     handleChange(name, value) {
-        console.log('hhh', name, value)
         this.resetError();
 
         this.setState({

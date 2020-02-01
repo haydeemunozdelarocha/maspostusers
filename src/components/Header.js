@@ -38,7 +38,7 @@ function Header(props) {
                                             <li><Link to="/inventario">Inventario</Link></li>
                                         </React.Fragment>
                                     }
-                                    <li><Link to="/logout">Logout</Link></li>
+                                    <li><Link to={'/logout'}>Logout</Link></li>
                                 </ul>
                             </div>
                         </React.Fragment>

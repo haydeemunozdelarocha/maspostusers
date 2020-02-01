@@ -12,7 +12,7 @@ class Dashboard extends React.Component {
 
         const { cookies } = props;
         const pmb = getUserCookie(cookies) ? getUserCookie(cookies).pmb : null;
-
+        console.log(getUserCookie(cookies))
         this.state = {
             inventoryData: [],
             headers: [],
@@ -60,7 +60,7 @@ class Dashboard extends React.Component {
                             </div>
                             <div className="panel">
                                 <div className="panel-body panel-center">
-                                    <iframe title="reporte" lassName="content-iframe" src="https://maspost.herokuapp.com/w/puentes" width="100%" height="220"></iframe>
+                                    <iframe title="reporte" className="content-iframe" src="https://maspost.herokuapp.com/w/puentes" width="100%" height="220"></iframe>
                                 </div>
                             </div>
                         </div>

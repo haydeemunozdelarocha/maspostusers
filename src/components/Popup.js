@@ -26,7 +26,6 @@ class Popup extends React.Component {
     }
 
     componentDidMount() {
-        console.log('huh?', this.isMobile());
         const isFullScreen = this.isMobile();
         this.setState({
             fullScreen: isFullScreen
@@ -40,7 +39,6 @@ class Popup extends React.Component {
     }
 
     resizeWindow() {
-        console.log('resizing window', this.isMobile());
         const isFullScreen = this.isMobile();
 
         this.setState({

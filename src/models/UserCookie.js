@@ -3,7 +3,7 @@ export class UserCookie {
         console.log('data', data);
         this.id = data.id;
         this.userType = data.userType;
-        this.name = data.name;
+        this.name = data.nombre;
         this.email = data.email;
 
         if (this.userType === 'user') {

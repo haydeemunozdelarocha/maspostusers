@@ -26,7 +26,7 @@ class CardList extends React.Component {
             <div>
                 {
                     hasCheckbox &&
-                    <button className="btn btn-secondary" style={{marginBottom: '20px', float: 'rog '}} onClick={(e) => selectAll()}>{allSelected ? 'Unselect All' : 'Select All'}</button>
+                    <button className="btn btn-secondary" style={{marginBottom: '20px'}} onClick={(e) => selectAll()}>{allSelected ? 'Unselect All' : 'Select All'}</button>
                 }
                 {cards.length > 0 &&
                     this.renderCards()
