@@ -46,7 +46,7 @@ export function isLoggedIn(userCookie) {
 }
 
 export function logOut(cookies) {
-    if (getUserCookie(cookies)) {
+    if (cookies && getUserCookie(cookies)) {
         return cookies.remove('maspost-user');
     }
 }

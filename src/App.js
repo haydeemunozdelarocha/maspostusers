@@ -34,7 +34,6 @@ const App = (props) => {
     const isUserLoggedInAndSuperAdmin = isSuperAdmin(userCookie) && isUserLoggedIn;
     const isUserRegistrationComplete = isSuperAdmin(userCookie) ? true : !!userCookie && (userCookie.profileStatus !== '0' && userCookie.profileStatus !== '1');
     const logoutAndRedirect = (e) => {
-        console.log('loggin out');
         logOut(cookies);
 
         if (e.match && e.match.path && e.match.path.includes('admin')) {
@@ -58,7 +57,6 @@ const App = (props) => {
         if (isUserLoggedInAndSuperAdmin) {
             switch(route) {
                 case '/admin/confirm-express-pickup':
-                    console.log('confirm express!');
                     return <ConfirmExpressPickup/>;
                 case '/admin/captura':
                     return <InventoryCapture/>;
@@ -72,7 +70,6 @@ const App = (props) => {
                     return <Redirect to={{ pathname: '/admin', props: {user: userCookie} }} />;
             }
         } else {
-            console.log('login!');
             return <LoginPage isAdmin={true}/>;
         }
     };
