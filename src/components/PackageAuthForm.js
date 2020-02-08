@@ -7,15 +7,18 @@ import DateTimeSelect from "./DateTimeSelect";
 import AuthorizedPickupNameSelect from "./AuthorizedPickupNameSelect";
 import moment from 'moment';
 
-const today = moment().format('MM-DD-YYYY');
 const defaultTimeout = 2000;
+const closingTime = moment('04:30 PM', "HH:mm A");
+const isClosed = closingTime.diff(moment(), 'hours') < 0;
+const tomorrow = moment().add(1,'days');
+const defaultDate = isClosed ? tomorrow.format('MM-DD-YYYY') : moment().format('MM-DD-YYYY');
 
 class PackageAuthForm extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
             packageAuthInfo: {
-                date: today,
+                date: defaultDate,
                 time: 'none',
                 name: null,
             },
@@ -66,13 +69,17 @@ class PackageAuthForm extends React.Component {
         const params = {...details, pmb, packages};
         params.date = moment(params.date).format('DD-MM-YYYY');
 
-        if (!params || !params.packages || !params.name || (packageAuthFormTypes.EXPRESS_PICKUP && (!params.date || !params.time || params.time === 'none'))) {
+        if (!params ||
+            !params.packages
+            || !params.name
+            || (packageAuthFormTypes.EXPRESS_PICKUP === popup ? (!params.date || !params.time || params.time === 'none') : false)) {
             this.setState({
                 disableSubmit: true,
                 errorMessage: 'Por favor llena todos los campos.',
                 errorEnabled: true,
             });
-            return;
+
+            return new Error(`Error on Package Auth form submit params ${JSON.stringify(params)}`);
         }
 
         this.setState({
@@ -82,6 +89,7 @@ class PackageAuthForm extends React.Component {
             errorMessage: '',
             errorEnabled: false,
         });
+
         const action = popup === packageAuthFormTypes.EXPRESS_PICKUP ? submitExpressPickup : submitPackageAuth;
 
         if (onStartSubmit) {
@@ -98,9 +106,9 @@ class PackageAuthForm extends React.Component {
                     }, defaultTimeout);
                 }
             });
-        }).catch(() => {
+        }).catch((e) => {
             this.failSubmitCallback(popup);
-
+            return new Error(`Error on Package Auth form submit at API ${e.message}`);
         });
     }
 

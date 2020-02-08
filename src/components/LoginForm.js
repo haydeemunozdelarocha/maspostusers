@@ -36,7 +36,8 @@ class LoginForm extends React.Component {
                     submitting: false,
                     errorEnabled: true,
                     errorMessage: 'Usuario o contraseña inválida.'
-                })
+                });
+                return new Error(`Error on Login at API ${e.message}`);
             })
         });
     }

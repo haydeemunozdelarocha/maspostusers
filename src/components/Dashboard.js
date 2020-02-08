@@ -4,7 +4,7 @@ import { withCookies } from 'react-cookie';
 import PlanSummary from "./PlanSummary";
 import { getInventario } from "../helpers/customers";
 import {formatInventoryData, getDataKeys} from "../helpers/formatting";
-import {getUserCookie} from "../helpers/authentification";
+import {getUserCookie, logOut} from "../helpers/authentification";
 
 class Dashboard extends React.Component {
     constructor(props) {
@@ -31,7 +31,10 @@ class Dashboard extends React.Component {
                     isLoading: false
                 });
             }
-        });
+        }).catch((e) => {
+            logOut(this.props.cookies);
+            return new Error(e.message);
+        })
     }
 
     render() {

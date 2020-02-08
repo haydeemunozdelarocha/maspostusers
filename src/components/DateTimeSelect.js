@@ -5,9 +5,23 @@ import {MenuItem, Select} from "@material-ui/core";
 import {timelineLabels, isWeekend} from "../helpers/formatting";
 import moment from 'moment';
 
+const closingTime = moment('04:30 PM', "HH:mm A");
+const isClosed = closingTime.diff(moment(), 'hours') < 0;
+
 class DateTimeSelect extends React.Component {
+
     getTimeOptions() {
-        const timesAvailable = timelineLabels('09:30 AM', '04:30 PM', '30');
+        let startTime;
+
+        if (isClosed) {
+            startTime = moment('09:00 AM', 'HH:mm A');
+        } else {
+            startTime = moment();
+        }
+
+        const startRemainder = 30 - (startTime.minute() % 30);
+        const startDateTime = moment(startTime).add(startRemainder, "minutes");
+        const timesAvailable = timelineLabels(startDateTime.format("HH:mm A"), closingTime.format("HH:mm A"), '30');
         return timesAvailable.map((time, index) => <MenuItem key={`menu-option${index}`} value={time}>{time}</MenuItem>);
     }
 
@@ -21,13 +35,14 @@ class DateTimeSelect extends React.Component {
                     <KeyboardDatePicker
                         className={"mp-datetime-select-input"}
                         label={"Fecha"}
+                        autoOk={true}
                         name={"date"}
                         fullWidth
                         inputVariant="outlined"
                         margin="normal"
                         id="date-picker-dialog"
                         format="dd-MM-yyyy"
-                        minDate={new Date()}
+                        minDate={new Date(date)}
                         value={date}
                         onChange={(value) =>  onChange('date',  moment(value, 'MM-DD-YYYY').format('DD-MM-YYYY'))}
                         KeyboardButtonProps={{
@@ -39,7 +54,6 @@ class DateTimeSelect extends React.Component {
                 <React.Fragment>
                     <Select
                         className={"mp-time-select"}
-                        label={"Hora"}
                         variant="outlined"
                         name="time"
                         fullWidth

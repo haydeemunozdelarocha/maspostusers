@@ -54,7 +54,6 @@ class Register extends React.Component {
 
     createUser(values) {
         const {cookies} = this.props;
-        const {isLoggedIn} = this.state;
 
         if (values) {
             registerNewUser(values.email, values.password, values.pmb)
@@ -70,7 +69,8 @@ class Register extends React.Component {
                 }
 
             }).catch((e) => {
-                return this.props.history.push('/', {errorMessage: 'PMB is either invalid or already registered with another email. Please login or reset your password.'});
+                this.props.history.push('/', {errorMessage: 'PMB is either invalid or already registered with another email. Please login or reset your password.'});
+                return new Error(e.message);
             })
         }
     }

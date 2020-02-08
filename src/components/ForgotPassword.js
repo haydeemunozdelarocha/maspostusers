@@ -34,7 +34,8 @@ class ForgotPassword extends React.Component {
                     submitting: false,
                     errorEnabled: true,
                     errorMessage: e.message
-                })
+                });
+                return new Error(`Error on Forgot Password at API ${e.message}`)
             })
         })
     }

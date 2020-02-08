@@ -21,7 +21,7 @@ class ResetPassword extends React.Component {
     }
 
     getUrlAuthParams() {
-        const params = queryString.parse(this.props.location.search)
+        const params = queryString.parse(this.props.location.search);
         const {pmb, token} = params;
 
         if (pmb && pmb.length > 0 && token && token.length > 0) {
@@ -46,7 +46,7 @@ class ResetPassword extends React.Component {
                             errorEnabled: true,
                         }, () => {
                             this.clearForm();
-                            setUserCookie(this.props.cookies, res.data);
+                            setUserCookie(this.props.cookies, res.data, 'user');
                             this.props.history.push('/')
                         });
                     }
@@ -55,14 +55,15 @@ class ResetPassword extends React.Component {
                         submitting: false,
                         errorEnabled: true,
                         errorMessage: e.message
-                    })
+                    });
+                    return new Error(e.message);
                 })
             } else {
                 this.setState({
                     submitting: false,
                     errorEnabled: true,
                     errorMessage: 'Por favor ingresa un email válido y confirma tu contraseña.'
-                })
+                });
             }
         })
     }

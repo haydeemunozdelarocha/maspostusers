@@ -19,10 +19,11 @@ class ConfirmExpressPickup extends React.Component {
 
     componentDidMount() {
         confirmExpressPickup(this.state.packages).then((response) => {
-            console.log(response);
             this.setState({
                 isSubmitting: false
-            })
+            });
+        }).catch((e) => {
+            return new Error(e.message);
         });
     }
 

@@ -1,6 +1,6 @@
 import React from 'react';
 import {getCustomerPlanInfo} from "../helpers/customers";
-import {getUserCookie} from '../helpers/authentification';
+import {getUserCookie, logOut} from '../helpers/authentification';
 
 class PlanSummary extends React.Component {
     constructor(props) {
@@ -28,8 +28,9 @@ class PlanSummary extends React.Component {
                         plan: planInfo.plan
                     });
                 }
-            }).catch((e)=> {
-                console.error(e);
+            }).catch((e) => {
+                logOut(this.props.cookies);
+                return new Error(`Error getting customer plan info. message: ${e.message}`);
             });
         }
     }

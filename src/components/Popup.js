@@ -4,6 +4,8 @@ import DialogTitle from '@material-ui/core/DialogTitle';
 import DialogContent from '@material-ui/core/DialogContent';
 import DialogActions from '@material-ui/core/DialogActions';
 import { Tooltip } from '@material-ui/core';
+import {isMobileSmall} from "../helpers/responsive";
+
 import {
     withStyles
 } from "@material-ui/core/styles";
@@ -21,28 +23,17 @@ class Popup extends React.Component {
 
         this.state = {
             open: false,
-            fullScreen: false
+            fullScreen: isMobileSmall()
         }
     }
 
     componentDidMount() {
-        const isFullScreen = this.isMobile();
-        this.setState({
-            fullScreen: isFullScreen
-        });
-
         window.addEventListener('resize', () => this.resizeWindow());
     }
 
-    isMobile() {
-        return window.innerWidth < 556;
-    }
-
     resizeWindow() {
-        const isFullScreen = this.isMobile();
-
         this.setState({
-            fullScreen: isFullScreen
+            fullScreen: isMobileSmall()
         });
     }
 

@@ -35,16 +35,16 @@ class AuthorizedPickupNameSelect extends React.Component {
     }
 
     onInput(e, value) {
+        const inputValue = value ? value : e.target.value;
         const {onChange} = this.props;
         this.setState({
-            hasErrorMessage: value && value.length === 0
+            hasErrorMessage: inputValue && inputValue.length === 0
         });
 
-        return onChange(value);
+        return onChange(inputValue);
     }
 
     render() {
-        const {name} = this.props;
         const {autorizados, hasErrorMessage} = this.state;
         return (
             <div className="mp-authorized-name-select">
@@ -54,15 +54,14 @@ class AuthorizedPickupNameSelect extends React.Component {
                         <Autocomplete
                             freeSolo
                             onChange={(e, value) => this.onInput(e, value)}
-                            value={name}
                             style={{zIndex: '10'}}
                             options={autorizados.map(option => option.nombre)}
                             renderInput={params => (
                                 <TextField
                                     required
                                     {...params}
-                                    variant="outlined"
                                     onInput={(e) => this.onInput(e)}
+                                    variant="outlined"
                                     margin="normal"
                                     label={"Quién va a recoger?"}
                                     fullWidth

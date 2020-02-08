@@ -21,7 +21,7 @@ class TermsForm extends React.Component {
             this.setState({
                 errorEnabled: true,
                 errorMessage: 'Please accept the terms and conditions to continue.'
-            })
+            });
         } else {
             this.props.onSubmit(this.state.accepted);
         }

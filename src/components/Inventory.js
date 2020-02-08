@@ -1,6 +1,6 @@
 import Table from "./Table";
 import Popup from "./Popup";
-import {getInventario, submitExpressPickup, submitPackageAuth} from "../helpers/customers";
+import {getInventario} from "../helpers/customers";
 import {getUserCookie} from "../helpers/authentification";
 import {formatInventoryData, getDataKeys, getSpanishMonthName} from "../helpers/formatting";
 import React from "react";
