@@ -2,7 +2,7 @@ import axios from 'axios';
 import moment from 'moment';
 
 export function getCustomerPlanInfo(pmb) {
-    return axios.get(`${process.env.REACT_APP_MASPOST_SOURCE}clientes/info_plan?pmb=${pmb}`)
+    return axios.get(`/clientes/info_plan?pmb=${pmb}`)
 }
 
 export function getInventario(pmb, status, date) {
@@ -17,13 +17,13 @@ export function getInventario(pmb, status, date) {
             queryData.year = moment(date, 'DD/MM/YYYY').year();
         }
     }
-    return axios.get(`${process.env.REACT_APP_MASPOST_SOURCE}recepcion/all`, {responseType: 'json', params: queryData});
+    return axios.get(`/recepcion/all`, {responseType: 'json', params: queryData});
 }
 
 export function getAutorizados(pmb) {
-    return axios.get(`${process.env.REACT_APP_MASPOST_SOURCE}clientes/autorizados_entrega`, {responseType: 'json', params: {pmb: pmb}});
+    return axios.get(`/clientes/autorizados_entrega`, {responseType: 'json', params: {pmb: pmb}});
 }
 
 export function getClientesRecibir() {
-    return axios.get(`${process.env.REACT_APP_MASPOST_SOURCE}clientes/recibir`, {responseType: 'json', params: {}});
+    return axios.get(`/clientes/recibir`, {responseType: 'json', params: {}});
 }
