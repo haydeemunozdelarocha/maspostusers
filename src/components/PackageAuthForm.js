@@ -8,14 +8,15 @@ import AuthorizedPickupNameSelect from "./AuthorizedPickupNameSelect";
 import moment from 'moment';
 
 const defaultTimeout = 2000;
-const closingTime = moment('04:30 PM', "HH:mm A");
-const isClosed = closingTime.diff(moment(), 'hours') < 3;
-const tomorrow = moment().add(1,'days');
-const defaultDate = isClosed ? tomorrow.format('MM-DD-YYYY') : moment().format('MM-DD-YYYY');
 
 class PackageAuthForm extends React.Component {
     constructor(props) {
         super(props);
+        const closingTime = moment('04:30 PM', "HH:mm A");
+        const isClosed = closingTime.diff(moment(), 'hours') < 3;
+        const tomorrow = moment().add(1,'days');
+        const defaultDate = isClosed ? tomorrow.format('MM-DD-YYYY') : moment().format('MM-DD-YYYY');
+
         this.state = {
             packageAuthInfo: {
                 date: defaultDate,

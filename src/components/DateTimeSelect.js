@@ -5,11 +5,10 @@ import {MenuItem, Select} from "@material-ui/core";
 import {timelineLabels, isWeekend} from "../helpers/formatting";
 import moment from 'moment';
 
-const closingTime = moment('04:30 PM', "HH:mm A");
-
 class DateTimeSelect extends React.Component {
 
     getTimeOptions(isClosed) {
+        const closingTime = moment('04:30 PM', "HH:mm A");
         let startTime;
 
         if (isClosed) {
@@ -25,6 +24,7 @@ class DateTimeSelect extends React.Component {
     }
 
     render() {
+        const closingTime = moment('04:30 PM', "HH:mm A");
         const {date, time, onChange} = this.props;
         const momentDate = date ? moment(date) : moment();
         const isClosed = closingTime.diff(momentDate, 'hours') < 3;
