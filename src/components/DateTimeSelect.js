@@ -26,10 +26,9 @@ class DateTimeSelect extends React.Component {
 
     render() {
         const {date, time, onChange} = this.props;
-        const momentDate = date ? moment(date, 'DD-MM-YYYY') : moment();
+        const momentDate = date ? moment(date) : moment();
         const isClosed = closingTime.diff(momentDate, 'hours') < 3;
         const helperText = isWeekend(date) ? 'La fecha seleccionada es en fin de semana. Los fines de semana solamente aceptamos entregas por cita. Al enviar tu solicitud, nuestro equipo confirmará la entrega por correo electrónico.' : '';
-
         return (
             <div className={"mp-datetime-select"}>
                 <MuiPickersUtilsProvider utils={DateFnsUtils}>
@@ -38,18 +37,17 @@ class DateTimeSelect extends React.Component {
                         label={"Fecha"}
                         autoOk={true}
                         onAccept={(date) => {
-                            console.log('accept');
-                            onChange('date',  moment(date).format('DD-MM-YYYY'))
+                            onChange('date',  moment(date).format('MM-DD-YYYY'))
                         }}
                         name={"date"}
                         fullWidth
                         inputVariant="outlined"
                         margin="normal"
                         id="date-picker-dialog"
-                        format="MM-dd-yyyy"
+                        format="dd-MM-yyyy"
                         minDate={date ? new Date(date) : new Date()}
-                        value={momentDate.format('MM-DD-YYYY')}
-                        onChange={(value) =>  onChange('date',  moment(value, 'MM-DD-YYYY').format('DD-MM-YYYY'))}
+                        value={momentDate}
+                        onChange={(value) =>  onChange('date',  moment(value).format('DD-MM-YYYY'))}
                         KeyboardButtonProps={{
                             'aria-label': 'change date',
                         }}

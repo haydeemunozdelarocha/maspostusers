@@ -38,9 +38,7 @@ class PackageAuthForm extends React.Component {
     }
 
     handleChange(name, value) {
-        console.log('changing', name, value);
         this.resetError();
-
         if (value && value.length === 0) {
             this.setState({
                 disableSubmit: true,

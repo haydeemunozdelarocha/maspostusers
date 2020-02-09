@@ -11,6 +11,7 @@ export const packageAuthFormTypes = {
 
 export function submitExpressPickup(details) {
     const {pmb, packages, time, date, name} = details;
+    console.log('wwwww', date, time);
     return axios.post(`${process.env.REACT_APP_MASPOST_SOURCE}recepcion/express_pickup`, {pmb, ids: packages, time, date, name});
 }
 
