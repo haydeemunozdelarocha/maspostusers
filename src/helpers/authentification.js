@@ -14,7 +14,7 @@ export function registerNewUser(email, password, pmb) {
 
 export function login(email, password, isAdmin = false) {
     const user = { email, password, isAdmin};
-    return axios.post(`${process.env.REACT_APP_MASPOST_SOURCE}auth/login`, user)
+    return axios.post(`/api/auth/login`, user)
 }
 
 export function forgotPassword(email, pmb) {
