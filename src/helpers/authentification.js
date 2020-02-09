@@ -1,6 +1,6 @@
 import axios from 'axios';
 import {UserCookie} from '../models/UserCookie';
-
+axios.defaults.baseURL ="http://api.maspostwarehouse.com"
 export const userTypes = {
     ADMIN: 'admin',
     SUPER_ADMIN: 'superAdmin',
@@ -9,7 +9,7 @@ export const userTypes = {
 
 export function registerNewUser(email, password, pmb) {
     const user = { email, password, pmb};
-    return axios.post(`${process.env.REACT_APP_MASPOST_SOURCE}auth/new_user`, user)
+    return axios.post(`/auth/new_user`, user)
 }
 
 export function login(email, password, isAdmin = false) {
@@ -19,12 +19,12 @@ export function login(email, password, isAdmin = false) {
 
 export function forgotPassword(email, pmb) {
     const user = { email, pmb};
-    return axios.post(`${process.env.REACT_APP_MASPOST_SOURCE}auth/forgot_password`, user)
+    return axios.post(`/auth/forgot_password`, user)
 }
 
 export function resetPassword(email, password, pmb, token) {
     const user = { email, password, pmb, token};
-    return axios.post(`${process.env.REACT_APP_MASPOST_SOURCE}auth/reset_password`, user)
+    return axios.post(`/auth/reset_password`, user)
 }
 
 export function acceptTerms(id, pmb) {

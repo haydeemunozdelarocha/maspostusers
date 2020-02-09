@@ -1,7 +1,7 @@
 import axios from "axios";
 
 export function getFleteras() {
-    return axios.get(`${process.env.REACT_APP_MASPOST_SOURCE}recepcion/fleteras`, {responseType: 'json', params: {}});
+    return axios.get(`/recepcion/fleteras`, {responseType: 'json', params: {}});
 }
 
 export const packageAuthFormTypes = {
@@ -12,10 +12,10 @@ export const packageAuthFormTypes = {
 export function submitExpressPickup(details) {
     const {pmb, packages, time, date, name} = details;
     console.log('wwwww', date, time);
-    return axios.post(`${process.env.REACT_APP_MASPOST_SOURCE}recepcion/express_pickup`, {pmb, ids: packages, time, date, name});
+    return axios.post(`/recepcion/express_pickup`, {pmb, ids: packages, time, date, name});
 }
 
 export function submitPackageAuth(details) {
     const {pmb, packages, name} = details;
-    return axios.post(`${process.env.REACT_APP_MASPOST_SOURCE}recepcion/authorize_pickup`, {pmb, ids: packages, name});
+    return axios.post(`/recepcion/authorize_pickup`, {pmb, ids: packages, name});
 }
