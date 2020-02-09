@@ -67,6 +67,7 @@ class PackageAuthForm extends React.Component {
         const {pmb, packages, onStartSubmit } = this.props;
         this.resetError();
         const params = {...details, pmb, packages};
+        console.log('parans', params.date, moment(params.date).format('DD-MM-YYYY'))
         params.date = moment(params.date).format('DD-MM-YYYY');
 
         if (!params ||
