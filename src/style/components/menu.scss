@@ -129,12 +129,18 @@
       font-size: 2rem;
       padding-right: 0;
 
-      a {
+      span {
         color: #FFF;
+
+        &:hover {
+          color: $secondary_color;
+          border-bottom: 2px solid $secondary_color;
+        }
       }
     }
   }
 }
+
 
 
 .menu-list {
@@ -148,6 +154,20 @@
     line-height: 2rem;
     font-size: 1rem;
     padding-right: 15px;
+
+    span {
+      cursor: pointer;
+      color: $main_dark;
+      border-bottom: 2px solid transparent;
+    }
+
+    &:hover {
+      span {
+        color: $main_color;
+        text-decoration: none;
+        border-bottom: 2px solid $main_color;
+      }
+    }
   }
 }
 

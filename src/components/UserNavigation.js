@@ -1,12 +1,11 @@
 import React from 'react';
-import {Link} from "react-router-dom";
 
-const UserNavigation = (props) => {
+const UserNavigation = ({onClick}) => {
     return (
         <React.Fragment>
-            <li><Link to="/">Home</Link></li>
-            <li><Link to="/inventario">Inventario</Link></li>
-            <li><Link to="/logout">Logout</Link></li>
+            <li><span onClick={() => onClick('/')}>Home</span></li>
+            <li><span onClick={() => onClick('/inventario')}>Inventario</span></li>
+            <li><span onClick={() => onClick('/logout')}>Logout</span></li>
         </React.Fragment>
     );
 }

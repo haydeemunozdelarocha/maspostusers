@@ -5,6 +5,7 @@ import MenuIcon from "./MenuIcon";
 import {isMobileMedium} from "../helpers/responsive";
 import Dialog from '@material-ui/core/Dialog';
 import DialogContent from '@material-ui/core/DialogContent';
+import { withRouter } from "react-router-dom";
 
 class ResponsiveMenu extends React.Component {
     constructor(props) {
@@ -32,9 +33,16 @@ class ResponsiveMenu extends React.Component {
         });
     };
 
+    navigateTo(path) {
+        if (this.state.isMobile) {
+            this.toggle();
+        }
+        this.props.history.push(path)
+    }
+
     getNavigationItems() {
         const {isSuperAdmin} = this.props;
-        return (isSuperAdmin ? <AdminNavigation/> : <UserNavigation/>);
+        return (isSuperAdmin ? <AdminNavigation/> : <UserNavigation onClick={(path) => this.navigateTo(path)}/>);
     }
 
     render() {
@@ -69,4 +77,4 @@ class ResponsiveMenu extends React.Component {
     }
 }
 
-export default ResponsiveMenu;
+export default withRouter(ResponsiveMenu);
