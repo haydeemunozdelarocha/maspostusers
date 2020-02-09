@@ -14,7 +14,7 @@ export function registerNewUser(email, password, pmb) {
 
 export function login(email, password, isAdmin = false) {
     const user = { email, password, isAdmin};
-    return axios.post(`${process.env.REACT_APP_MASPOST_SOURCE}auth/login`, user)
+    return axios.post(`/auth/login`, user)
 }
 
 export function forgotPassword(email, pmb) {
@@ -29,7 +29,7 @@ export function resetPassword(email, password, pmb, token) {
 
 export function acceptTerms(id, pmb) {
     const user = { id, pmb };
-    return axios.post(`${process.env.REACT_APP_MASPOST_SOURCE}auth/accept_terms`, user)
+    return axios.post(`/auth/accept_terms`, user)
 }
 
 export function getUserCookie(cookies) {
