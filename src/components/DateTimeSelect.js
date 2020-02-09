@@ -18,7 +18,7 @@ class DateTimeSelect extends React.Component {
         }
 
         const startRemainder = 30 - (startTime.minute() % 30);
-        const startDateTime = moment(startTime).add(startRemainder, "minutes");
+        const startDateTime = startTime.add(startRemainder, "minutes");
         const timesAvailable = timelineLabels(startDateTime.format("HH:mm A"), closingTime.format("HH:mm A"), '30');
         return timesAvailable.map((time, index) => <MenuItem key={`menu-option${index}`} value={time}>{time}</MenuItem>);
     }
@@ -26,7 +26,8 @@ class DateTimeSelect extends React.Component {
     render() {
         const closingTime = moment('04:30 PM', "HH:mm A");
         const {date, time, onChange} = this.props;
-        const momentDate = date ? moment(date) : moment();
+        const momentDate = date ? moment(new Date(date)) : moment();
+        console.log('MOMENT DATE', momentDate, date);
         const isClosed = closingTime.diff(momentDate, 'hours') < 3;
         const helperText = isWeekend(date) ? 'La fecha seleccionada es en fin de semana. Los fines de semana solamente aceptamos entregas por cita. Al enviar tu solicitud, nuestro equipo confirmará la entrega por correo electrónico.' : '';
         return (
@@ -37,7 +38,7 @@ class DateTimeSelect extends React.Component {
                         label={"Fecha"}
                         autoOk={true}
                         onAccept={(date) => {
-                            onChange('date',  moment(date).format('MM-DD-YYYY'))
+                            onChange('date',  moment(new Date(date)).format('MM-DD-YYYY'))
                         }}
                         name={"date"}
                         fullWidth
@@ -45,9 +46,9 @@ class DateTimeSelect extends React.Component {
                         margin="normal"
                         id="date-picker-dialog"
                         format="dd-MM-yyyy"
-                        minDate={date ? new Date(date) : new Date()}
+                        minDate={date}
                         value={momentDate}
-                        onChange={(value) =>  onChange('date',  moment(value).format('DD-MM-YYYY'))}
+                        onChange={(value) =>  onChange('date',  moment(new Date(value)).format('DD-MM-YYYY'))}
                         KeyboardButtonProps={{
                             'aria-label': 'change date',
                         }}

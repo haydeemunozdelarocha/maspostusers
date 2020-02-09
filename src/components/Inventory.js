@@ -41,7 +41,7 @@ class Inventory extends React.Component {
     }
 
     getDatesForFilter() {
-        const today = moment(new Date());
+        const today = moment();
         let currentDate = today;
 
         this.filterDates.push(today.format(dateFormat));
