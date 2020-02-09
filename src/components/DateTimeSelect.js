@@ -44,7 +44,7 @@ class DateTimeSelect extends React.Component {
                         margin="normal"
                         id="date-picker-dialog"
                         format="dd-MM-yyyy"
-                        minDate={new Date(date)}
+                        minDate={date ? new Date(date) : new Date()}
                         value={date}
                         onChange={(value) =>  onChange('date',  moment(value, 'MM-DD-YYYY').format('DD-MM-YYYY'))}
                         KeyboardButtonProps={{
