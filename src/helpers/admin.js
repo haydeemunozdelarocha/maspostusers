@@ -10,10 +10,13 @@ export function getInventoryTypeSummaryPerCustomer(startDate, endDate) {
         });
 }
 
-export function confirmExpressPickup(packages) {
+export function confirmExpressPickup(id, packages) {
     const data = packages.map((id) => ({
         confirmado: 1,
         id
     }));
-    return axios.put(`${process.env.REACT_APP_MASPOST_SOURCE}recepcion/express_pickup`, data);
+    return axios.post(`${process.env.REACT_APP_MASPOST_SOURCE}recepcion/confirm_express_pickup`, {
+       data: data[0],
+       id
+    });
 }

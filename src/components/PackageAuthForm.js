@@ -9,7 +9,7 @@ import moment from 'moment';
 
 const defaultTimeout = 2000;
 const closingTime = moment('04:30 PM', "HH:mm A");
-const isClosed = closingTime.diff(moment(), 'hours') < 0;
+const isClosed = closingTime.diff(moment(), 'hours') < 3;
 const tomorrow = moment().add(1,'days');
 const defaultDate = isClosed ? tomorrow.format('MM-DD-YYYY') : moment().format('MM-DD-YYYY');
 

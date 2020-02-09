@@ -6,11 +6,10 @@ import {timelineLabels, isWeekend} from "../helpers/formatting";
 import moment from 'moment';
 
 const closingTime = moment('04:30 PM', "HH:mm A");
-const isClosed = closingTime.diff(moment(), 'hours') < 0;
 
 class DateTimeSelect extends React.Component {
 
-    getTimeOptions() {
+    getTimeOptions(isClosed) {
         let startTime;
 
         if (isClosed) {
@@ -27,6 +26,9 @@ class DateTimeSelect extends React.Component {
 
     render() {
         const {date, time, onChange} = this.props;
+        const momentDate = date ? moment(date) : moment();
+        const isClosed = closingTime.diff(momentDate, 'hours') < 3;
+
         const helperText = isWeekend(date) ? 'La fecha seleccionada es en fin de semana. Los fines de semana solamente aceptamos entregas por cita. Al enviar tu solicitud, nuestro equipo confirmará la entrega por correo electrónico.' : '';
 
         return (
@@ -62,7 +64,7 @@ class DateTimeSelect extends React.Component {
                         onChange={(e) => onChange(e.target.name, e.target.value)}
                     >
                         <MenuItem value="none" disabled>Selecciona una hora</MenuItem>
-                        {this.getTimeOptions()}
+                        {this.getTimeOptions(isClosed)}
                     </Select>
                 </React.Fragment>
             </div>

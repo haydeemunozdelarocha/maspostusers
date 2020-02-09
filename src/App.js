@@ -41,8 +41,10 @@ const App = (props) => {
     const isUserRegistrationComplete = isSuperAdmin(userCookie) ? true : !!userCookie && (userCookie.profileStatus !== '0' && userCookie.profileStatus !== '1');
     const logoutAndRedirect = (e) => {
         logOut(cookies);
+        console.log(userCookie);
 
         if (e.match && e.match.path && e.match.path.includes('admin')) {
+            console.log('redirecting to admin');
             return <Redirect to={{ pathname: '/admin', props: {user: undefined} }} />;
         }
 
@@ -51,7 +53,9 @@ const App = (props) => {
 
     const checkAdminUser = (e) => {
         if (isUserLoggedIn) {
+            console.log('wha', isUserLoggedIn, isSuperAdmin(userCookie));
             if (!isSuperAdmin(userCookie)) {
+                console.log('loggin out an redirect')
                 return logoutAndRedirect(!isUserLoggedIn);
             }
         }
@@ -84,7 +88,7 @@ const App = (props) => {
         <React.Fragment>
             <MuiThemeProvider theme={defaultTheme}>
                 <Router>
-                    <Header isSuperAdmin={isSuperAdmin(userCookie)} isLoggedIn={isUserRegistrationComplete} showLogout={isUserLoggedIn}/>
+                    <Header isSuperAdmin={isSuperAdmin(userCookie)} isLoggedIn={isSuperAdmin(userCookie) || isUserRegistrationComplete} showLogout={isUserLoggedIn}/>
                     <Route path="/" exact render={(props) => {
                         if (isUserLoggedIn && !isSuperAdmin(userCookie)) {
                             return (isUserRegistrationComplete ? <Dashboard/> : <Redirect to={{ pathname: '/registro', props: {user: userCookie} }} />);
@@ -113,7 +117,7 @@ const App = (props) => {
                         return <Register user={{profileStatus: 0}}/>;
                     }} />
                     <Route path="/admin" exact render={(e) => checkAdminUser(e, true)} />
-                    <Route path="/admin/confirm-express-pickup" exact render={checkAdminUser} />
+                    <Route path="/admin/confirm-express-pickup" exact render={()=> (<ConfirmExpressPickup/>)} />
                     <Route path="/admin/captura" exact render={checkAdminUser} />
                     <Route path="/admin/dashboard" exact render={checkAdminUser} />
                     <Route path="/admin/reports" exact render={checkAdminUser} />

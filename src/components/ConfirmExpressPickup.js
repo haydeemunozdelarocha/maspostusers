@@ -13,12 +13,13 @@ class ConfirmExpressPickup extends React.Component {
         this.state = {
             isSubmitted: true,
             isSubmitting: true,
-            packages
+            packages,
+            id: params.id
         };
     }
 
     componentDidMount() {
-        confirmExpressPickup(this.state.packages).then((response) => {
+        confirmExpressPickup(this.state.id, this.state.packages).then((response) => {
             this.setState({
                 isSubmitting: false
             });

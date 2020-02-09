@@ -1,5 +1,5 @@
 import React from 'react';
-import AdminNavigation from "./Header";
+import AdminNavigation from "./AdminNavigation";
 import UserNavigation from "./UserNavigation";
 import MenuIcon from "./MenuIcon";
 import {isMobileMedium} from "../helpers/responsive";
@@ -42,7 +42,7 @@ class ResponsiveMenu extends React.Component {
 
     getNavigationItems() {
         const {isSuperAdmin} = this.props;
-        return (isSuperAdmin ? <AdminNavigation/> : <UserNavigation onClick={(path) => this.navigateTo(path)}/>);
+        return (isSuperAdmin ? <AdminNavigation onClick={(path) => this.navigateTo(path)}/> : <UserNavigation onClick={(path) => this.navigateTo(path)}/>);
     }
 
     render() {
