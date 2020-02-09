@@ -117,7 +117,7 @@ const App = (props) => {
                         return <Register user={{profileStatus: 0}}/>;
                     }} />
                     <Route path="/admin" exact render={(e) => checkAdminUser(e, true)} />
-                    <Route path="/admin/confirm-express-pickup" exact render={()=> (<ConfirmExpressPickup/>)} />
+                    <Route path="/admin/confirm-express-pickup" render={()=> (<ConfirmExpressPickup/>)} />
                     <Route path="/admin/captura" exact render={checkAdminUser} />
                     <Route path="/admin/dashboard" exact render={checkAdminUser} />
                     <Route path="/admin/reports" exact render={checkAdminUser} />
