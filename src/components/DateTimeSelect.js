@@ -26,8 +26,8 @@ class DateTimeSelect extends React.Component {
     render() {
         const closingTime = moment('04:30 PM', "HH:mm A");
         const {date, time, onChange} = this.props;
-        const momentDate = date ? moment(new Date(date)) : moment();
-        console.log('MOMENT DATE', momentDate, date);
+        const momentDate = date ? moment(date, 'MM-DD-YYYY') : moment();
+        console.log('MOMENT DATE', momentDate, date, moment(date, 'MM-DD-YYYY'));
         const isClosed = closingTime.diff(momentDate, 'hours') < 3;
         const helperText = isWeekend(date) ? 'La fecha seleccionada es en fin de semana. Los fines de semana solamente aceptamos entregas por cita. Al enviar tu solicitud, nuestro equipo confirmará la entrega por correo electrónico.' : '';
         return (
