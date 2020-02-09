@@ -23,6 +23,11 @@
   &-float-right {
     float: right;
   }
+
+  @media (max-width: 768px) {
+    margin-top: 100px;
+    padding: 1rem;
+  }
 }
 
 .landing-page {
@@ -36,7 +41,7 @@
   }
 }
 
-@media (max-width: 760px) {
+@media (max-width: 768px) {
   .row {
     flex-direction: column;
   }
@@ -56,4 +61,15 @@
 
 .in-grid-narrow {
   margin: 0 20%;
+}
+
+.mobile-header {
+  position: fixed;
+  width: 100%;
+  z-index: 2;
+  top:0;
+
+  .navbar {
+    min-height: 100px;
+  }
 }
