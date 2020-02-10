@@ -1,10 +1,13 @@
 .panel {
   background-color: white;
-  border-radius: .5;
   border: solid 1px white;
   border-radius: $border-radius;
   padding: 1rem 1rem;
   margin-top: 2rem;
+
+  @media (max-width: 480px) {
+    padding: .5rem;
+  }
 
   &-body {
     @media (max-width: 480px) {
