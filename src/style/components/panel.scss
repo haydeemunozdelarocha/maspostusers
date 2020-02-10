@@ -1,6 +1,5 @@
 .panel {
   background-color: white;
-  padding: .5rem;
   border-radius: .5;
   border: solid 1px white;
   border-radius: $border-radius;
@@ -9,6 +8,7 @@
 
   &-body {
     @media (max-width: 480px) {
+      padding: .5rem;
       overflow-x: scroll;
     }
   }
