@@ -80,7 +80,7 @@ class Inventory extends React.Component {
     }
 
     componentWillUnmount() {
-        window.removeEventListener("resize", this.updateWindowSize);
+        window.removeEventListener("resize");
     }
 
     getData() {

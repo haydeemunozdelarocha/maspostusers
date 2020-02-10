@@ -3,7 +3,9 @@ import {KeyboardDatePicker, MuiPickersUtilsProvider} from "@material-ui/pickers"
 import DateFnsUtils from "@date-io/date-fns";
 import {MenuItem, Select} from "@material-ui/core";
 import {timelineLabels, isWeekend} from "../helpers/formatting";
-import moment from 'moment';
+import moment from 'moment-timezone';
+
+moment.tz.setDefault('America/Denver');
 
 class DateTimeSelect extends React.Component {
 
@@ -14,7 +16,7 @@ class DateTimeSelect extends React.Component {
         if (isClosed) {
             startTime = moment('09:00 AM', 'HH:mm A');
         } else {
-            startTime = moment();
+            startTime = moment().add(1, 'hour');
         }
 
         const startRemainder = 30 - (startTime.minute() % 30);
@@ -24,11 +26,10 @@ class DateTimeSelect extends React.Component {
     }
 
     render() {
-        const closingTime = moment('04:30 PM', "HH:mm A");
+        const closingTime = moment('05:00 PM', "HH:mm A");
         const {date, time, onChange} = this.props;
         const momentDate = date ? moment(date, 'MM-DD-YYYY') : moment();
-        console.log('MOMENT DATE', momentDate, date, moment(date, 'MM-DD-YYYY'));
-        const isClosed = closingTime.diff(momentDate, 'hours') < 3;
+        const isClosed = closingTime.diff(momentDate, 'hours') < 1;
         const helperText = isWeekend(date) ? 'La fecha seleccionada es en fin de semana. Los fines de semana solamente aceptamos entregas por cita. Al enviar tu solicitud, nuestro equipo confirmará la entrega por correo electrónico.' : '';
         return (
             <div className={"mp-datetime-select"}>

@@ -12,8 +12,8 @@ const defaultTimeout = 2000;
 class PackageAuthForm extends React.Component {
     constructor(props) {
         super(props);
-        const closingTime = moment('04:30 PM', "HH:mm A");
-        const isClosed = closingTime.diff(moment(), 'hours') < 3;
+        const closingTime = moment('05:00 PM', "HH:mm A");
+        const isClosed = closingTime.diff(moment(), 'hours') < 1;
         const tomorrow = moment().add(1,'days');
         const defaultDate = isClosed ? tomorrow.format('MM-DD-YYYY') : moment().format('MM-DD-YYYY');
 
@@ -67,7 +67,6 @@ class PackageAuthForm extends React.Component {
         const {pmb, packages, onStartSubmit } = this.props;
         this.resetError();
         const params = {...details, pmb, packages};
-        console.log('parans', params.date, moment(params.date).format('DD-MM-YYYY'))
         params.date = moment(params.date, 'MM-DD-YYYY').format('DD-MM-YYYY');
 
         if (!params ||

@@ -5,6 +5,11 @@
     right: 20px;
     height: 2rem;
     width:  2rem;
+
+    @media (max-width: 768px) {
+      height: 3rem;
+      width:  3rem;
+    }
   }
 
   margin-bottom: 30px;
