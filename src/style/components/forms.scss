@@ -84,6 +84,11 @@ input {
     min-width: 500px;
     padding: 2.5rem 4rem 2rem;
 
+    @media (max-width: 768px) {
+      min-width: unset;
+      max-width: 500px;
+    }
+
     input {
       max-width: unset;
     }
@@ -196,6 +201,10 @@ input[type="checkbox"]:checked:after {
   width: 60vw;
   padding: 40px 30px;
   margin-bottom: 30px;
+
+  @media (max-width: 768px) {
+    width: 100%;
+  }
 }
 
 input:-webkit-autofill,
