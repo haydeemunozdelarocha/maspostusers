@@ -130,9 +130,9 @@ export function getSpanishMonthName(monthNumber) {
 }
 
 export function isWeekend(dateString) {
-    console.log('dateString', dateString, moment(dateString).isoWeekday())
+    console.log('dateString', dateString, moment(dateString, 'MM-DD-YYYY').isoWeekday())
     if (dateString) {
-        return !moment(dateString).isoWeekday();
+        return !moment(dateString, 'MM-DD-YYYY').isoWeekday();
     }
 
     return false;
