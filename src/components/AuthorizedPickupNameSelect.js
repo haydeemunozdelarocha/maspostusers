@@ -4,13 +4,16 @@ import {TextField} from "@material-ui/core";
 import { getAutorizados } from "../helpers/customers";
 import { formatName } from "../helpers/formatting";
 
+const mainMessage = "Si el nombre del autorizado no aparece en la lista, solamente agrega un nombre nuevo.";
+
 class AuthorizedPickupNameSelect extends React.Component {
     constructor(props) {
         super(props);
 
         this.state = {
             autorizados: [],
-            hasErrorMessage: false
+            hasErrorMessage: false,
+            errorMessage: mainMessage
         };
     }
 
@@ -37,15 +40,17 @@ class AuthorizedPickupNameSelect extends React.Component {
     onInput(e, value) {
         const inputValue = value ? value : e.target.value;
         const {onChange} = this.props;
+        const isonlyAlpha = /[^a-zA-Z ]/g.test(inputValue);
         this.setState({
-            hasErrorMessage: inputValue && inputValue.length === 0
+            hasErrorMessage: (inputValue && inputValue.length === 0) || (inputValue && isonlyAlpha),
+            errorMessage: (inputValue && isonlyAlpha) ? 'Por favor ingresa un nombre válido, sin números o símbolos.' : mainMessage
         });
 
         return onChange(inputValue);
     }
 
     render() {
-        const {autorizados, hasErrorMessage} = this.state;
+        const {autorizados, hasErrorMessage, errorMessage} = this.state;
         return (
             <div className="mp-authorized-name-select">
                 <div className="dialog-autocomplete">
@@ -67,7 +72,7 @@ class AuthorizedPickupNameSelect extends React.Component {
                                     fullWidth
                                     error={hasErrorMessage}
                                     InputProps={{ ...params.InputProps, type: 'search' }}
-                                    helperText="Si el nombre del autorizado no aparece en la lista, solamente agrega un nombre nuevo."
+                                    helperText={errorMessage}
                                     InputLabelProps={{
                                         shrink: true,
                                     }}
