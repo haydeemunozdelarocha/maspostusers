@@ -17,12 +17,7 @@ import Register from "./components/Register";
 import {isSuperAdmin, getUserCookie, logOut, isLoggedIn} from './helpers/authentification';
 import { createMuiTheme, MuiThemeProvider } from "@material-ui/core/styles";
 import * as Sentry from '@sentry/browser';
-const ES6Promise = require("es6-promise");
-ES6Promise.polyfill();
 
-// if (!window.Promise) {
-//     window.Promise = ES6Promise;
-// }
 
 Sentry.init({dsn: "https://3023cd63d3aa45af8b8b9b325f18dbe3@sentry.io/2357811",  environment: process.env.NODE_ENV});
 
