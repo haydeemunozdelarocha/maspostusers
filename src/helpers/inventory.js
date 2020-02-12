@@ -1,4 +1,6 @@
-import axios from "axios";
+var ES6Promise = require("es6-promise");
+ES6Promise.polyfill();import axios from "axios";
+window.Promise = ES6Promise;
 
 export function getFleteras() {
     return axios.get(`/recepcion/fleteras`, {responseType: 'json', params: {}});
