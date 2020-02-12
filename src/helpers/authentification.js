@@ -1,4 +1,5 @@
-import axios from 'axios';
+var ES6Promise = require("es6-promise");
+ES6Promise.polyfill();import axios from 'axios';
 import {UserCookie} from '../models/UserCookie';
 axios.defaults.baseURL ="http://api.maspostwarehouse.com"
 export const userTypes = {
