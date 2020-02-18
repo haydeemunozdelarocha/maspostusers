@@ -41,7 +41,7 @@
   },
   "browserslist": {
     "production": [
-      ">0.2%",
+      ">0.1%",
       "not op_mini all",
       "ie 11"
     ],
