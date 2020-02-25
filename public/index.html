@@ -20,6 +20,16 @@
       Learn how to configure a non-root public URL by running `npm run build`.
     -->
     <title>+Post Warehouse | Crece con nosotros</title>
+    <!-- Global site tag (gtag.js) - Google Analytics -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=UA-114926081-2"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+
+      gtag('config', 'UA-114926081-2');
+    </script>
+
   </head>
   <body>
     <noscript>You need to enable JavaScript to run this app.</noscript>
@@ -39,7 +49,6 @@
   if (!window.Promise) {
     alert('Hubo un error al cargar la página de Maspost Warehouse. Nuestra aplicación no es compatible con la versión de tu navegador, para accesar la página actualiza tu navegador. Navegadores Compatibles: IE  9  y 10, Chrome, Safari, Firefox,  Edge');
     window.location.href = 'https://www.whatismybrowser.com/guides/how-to-update-your-browser/';
-    window.Sentry.captureException(new Error('Promise not defined'));
   }
 
 </script>
