@@ -22,6 +22,10 @@ import * as Sentry from '@sentry/browser';
 
 Sentry.init({dsn: "https://3023cd63d3aa45af8b8b9b325f18dbe3@sentry.io/2357811",  environment: process.env.NODE_ENV});
 
+if (!window.Promise) {
+    Sentry.captureException(new Error('Promise is undefined'))
+}
+
 const defaultTheme = createMuiTheme({
     typography: {
         fontFamily: "Montserrat",
