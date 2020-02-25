@@ -17,6 +17,7 @@ import ConfirmExpressPickup from "./components/ConfirmExpressPickup";
 import Register from "./components/Register";
 import {isSuperAdmin, getUserCookie, logOut, isLoggedIn} from './helpers/authentification';
 import { createMuiTheme, MuiThemeProvider } from "@material-ui/core/styles";
+import * as Sentry from '@sentry/browser';
 
 const defaultTheme = createMuiTheme({
     typography: {
