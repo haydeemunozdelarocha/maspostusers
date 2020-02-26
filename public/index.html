@@ -21,13 +21,14 @@
     -->
     <title>+Post Warehouse | Crece con nosotros</title>
     <!-- Global site tag (gtag.js) - Google Analytics -->
-    <script async src="https://www.googletagmanager.com/gtag/js?id=UA-114926081-2"></script>
     <script>
-      window.dataLayer = window.dataLayer || [];
-      function gtag(){dataLayer.push(arguments);}
-      gtag('js', new Date());
+      (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+        (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+              m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+      })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
 
-      gtag('config', 'UA-114926081-2');
+      ga('create', 'UA-114926081-2', 'auto');
+      ga('send', 'pageview');
     </script>
 
   </head>
@@ -46,7 +47,14 @@
     -->
     <script>
   if (!window.Promise) {
-    alert('Hubo un error al cargar la p¨¢gina de Maspost Warehouse. Nuestra aplicaci¨®n no es compatible con la versi¨®n de tu navegador, para accesar la p¨¢gina actualiza tu navegador. Navegadores Compatibles: IE  9  y 10, Chrome, Safari, Firefox,  Edge');
+    ga('send', {
+      hitType: 'event',
+      eventCategory: 'Error',
+      eventAction: 'Uncompatible browser',
+      eventLabel:  window.navigator.userAgent || window.navigator.appName
+  });
+
+    alert('Hubo un error al cargar la pagina de Maspost Warehouse. Nuestra aplicacion no es compatible con la version de tu navegador, para accesar la pagina actualiza tu navegador. Navegadores Compatibles: IE  9  y 10, Chrome, Safari, Firefox,  Edge');
     window.location.href = 'https://www.whatismybrowser.com/guides/how-to-update-your-browser/';
   }
 
